@@ -16,14 +16,13 @@ function App() {
         { index: true, element: <Home /> },
         { path: "books/:searchField", element: <BookListBySearch /> },
         { path: "books/subject/:subject", element: <BooksListBySubject /> },
-        { path: "books/detail/:bookId", element: <BookDetail /> },
+        { path: "books/:id", element: <BookDetail /> },
       ],
     },
   ]);
 
   return (
     <RouterProvider router={router}>
-      <Navbar />
     </RouterProvider>
   );
 }

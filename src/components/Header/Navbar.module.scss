@@ -1,4 +1,4 @@
-@import "../Variables.scss";
+@import "../Variables.module.scss";
 .nav {
   width: 100vw;
   position: fixed;
@@ -25,11 +25,6 @@
 .nav-ppal-mobile-button {
   background-color: map-get($colors, superLightBrown);
   padding: 0;
-}
-.nav-ppal-mobile-button-icon {
-  stroke: map-get($colors, darkBrown);
-  stroke-width: 1px;
-  height: 2.5rem;
 }
 
 .side-nav-mobile {
@@ -79,13 +74,6 @@
     .nav-ppal-dropdown-subject {
       display: flex;
       align-items: center;
-    }
-    svg {
-      height: 1rem;
-      padding-left: 0.5rem;
-      fill: none;
-      stroke-width: 2px;
-      stroke: map-get($colors, darkBrown);
     }
   }
 }

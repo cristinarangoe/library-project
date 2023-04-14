@@ -1,4 +1,4 @@
-@import "../Variables.scss";
+@import "../Variables.module.scss";
 
 .nav-searchbar {
   border-radius: 30px;
@@ -22,12 +22,6 @@
   .nav-searchbar-logo {
     background-color: map-get($colors, lightBrown);
     border-radius: 30px;
-    .nav-searchbar-logo-svg {
-      height: 20px;
-      stroke: map-get($colors, darkBrown);
-      stroke-width: 3px;
-      fill: none;
-    }
   }
 }
 

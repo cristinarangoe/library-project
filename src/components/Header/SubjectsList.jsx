@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./SubjectsList.scss";
+import styles from "./SubjectsList.module.scss";
+import { PropTypes } from "prop-types";
 
-function Dropdown(props) {
-  //state for checking if when the dropdown is open, I clicked an option in order to close the dropdown
-  const [optionClicked, setOptionClicked] = useState(false);
+function SubjectsList(props) {
+  const [listOptionClicked, setListOptionClicked] = useState(false);
 
-  //this is temporary info
   const subjectsLists = [
     "sub1",
     "sub2",
@@ -16,18 +15,18 @@ function Dropdown(props) {
   ];
 
   //function to change the state to close and open the dropdown
-  const optionClickedHandler = () => {
-    setOptionClicked((prevState) => !prevState);
-    props.setMobileClicked((prevState) => !prevState)
+  const changeListDisplayHandler = () => {
+    setListOptionClicked((prevState) => !prevState);
+    props.mobile && props.setMobileClicked((prevState) => !prevState)
   };
   
   return (
     <ul
-      onClick={optionClickedHandler}
-      className={`${optionClicked ? "dropdown-menu clicked" : "dropdown-menu"} ${props.mobile && "dropdown-menu-mobile"}`}
+      onClick={changeListDisplayHandler}
+      className={`${listOptionClicked ? styles["dropdown-menu clicked"] : styles["dropdown-menu"]} ${props.mobile && styles["dropdown-menu-mobile"]}`}
     >
       {subjectsLists.map((sub, index) => (
-        <li key={index} className="main-nav-ppal-dropdown-option">
+        <li key={index} className={styles["main-nav-ppal-dropdown-option"]}>
           <Link to={`/books/subject/${sub}`}>{sub}</Link>
         </li>
       ))}
@@ -35,4 +34,9 @@ function Dropdown(props) {
   );
 }
 
-export default Dropdown;
+SubjectsList.propTypes = {
+  setMobileClicked: PropTypes.func,
+  mobile: PropTypes.bool,
+}
+
+export default SubjectsList;
