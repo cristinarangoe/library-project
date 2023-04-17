@@ -7,7 +7,6 @@ import BookListBySearch from "./pages/BookListBySearch";
 import BooksListBySubject from "./pages/BooksListBySubject";
 
 function App() {
-  //this is not the final paths, it´s just the starting point in order to create the layout
   const router = createBrowserRouter([
     {
       path: "/",
@@ -22,8 +21,7 @@ function App() {
   ]);
 
   return (
-    <RouterProvider router={router}>
-    </RouterProvider>
+    <RouterProvider router={router}/>
   );
 }
 

@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&family=Montserrat:wght@400;500;600;700&display=swap");
 
-//colors
 $colors: (
   lightBrown: #daaa63,
   darkBrown: #2c1810,
@@ -8,11 +7,9 @@ $colors: (
   superLightBrown: #f9f3ee,
 );
 
-//font family
 $primaryFontFamily: "Libre Caslon Text", serif;
 $secondaryFontFamily: "Montserrat", sans-serif;
 
-//sizes for fonts
 $fontSizes: (
   header: 21px,
   primary: 18px,
@@ -20,7 +17,6 @@ $fontSizes: (
   tertiary: 14px,
 );
 
-//font weight
 $fontWeight: (
   regular: 400,
   medium: 500,
@@ -28,7 +24,6 @@ $fontWeight: (
   bold: 700,
 );
 
-//breakpoints for responsive web app
 $breakPointMobile: 600px;
 
 

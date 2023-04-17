@@ -4,8 +4,6 @@ import styles from "./SubjectsList.module.scss";
 import { PropTypes } from "prop-types";
 
 function SubjectsList(props) {
-  const [listOptionClicked, setListOptionClicked] = useState(false);
-
   const subjectsLists = [
     "sub1",
     "sub2",
@@ -14,16 +12,17 @@ function SubjectsList(props) {
     "sudgergretregregrtrtb5",
   ];
 
-  //function to change the state to close and open the dropdown
   const changeListDisplayHandler = () => {
-    setListOptionClicked((prevState) => !prevState);
-    props.mobile && props.setMobileClicked((prevState) => !prevState)
+    props.setDropdownClicked((prevState) => !prevState);
+    props.isMobile && props.setMobileClicked((prevState) => !prevState);
   };
-  
+
   return (
     <ul
       onClick={changeListDisplayHandler}
-      className={`${listOptionClicked ? styles["dropdown-menu clicked"] : styles["dropdown-menu"]} ${props.mobile && styles["dropdown-menu-mobile"]}`}
+      className={`${styles["dropdown-menu"]} ${
+        props.isMobile && styles["dropdown-menu-mobile"]
+      }`}
     >
       {subjectsLists.map((sub, index) => (
         <li key={index} className={styles["main-nav-ppal-dropdown-option"]}>
@@ -36,7 +35,8 @@ function SubjectsList(props) {
 
 SubjectsList.propTypes = {
   setMobileClicked: PropTypes.func,
-  mobile: PropTypes.bool,
-}
+  isMobile: PropTypes.bool,
+  setDropdownClicked: PropTypes.func,
+};
 
 export default SubjectsList;

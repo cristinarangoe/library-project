@@ -47,18 +47,23 @@ function Navbar() {
               <div>Categoria</div>
               <ChevronIconDown />
             </div>
-            {dropdownClicked && <SubjectsList mobile={false} />}
+            {dropdownClicked && (
+              <SubjectsList
+                isMobile={false}
+                setDropdownClicked={setDropdownClicked}
+              />
+            )}
           </div>
         </div>
         <div className={styles["nav-searchbar"]}>
-          {" "}
           <SearchBar />
         </div>
         {mobileMenuClicked && (
           <div className={styles["side-nav-mobile"]}>
             <SubjectsList
-              mobile={true}
+              isMobile={true}
               setMobileClicked={setMobileMenuClicked}
+              setDropdownClicked={setDropdownClicked}
             />
           </div>
         )}
