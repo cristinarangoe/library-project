@@ -1,0 +1,27 @@
+@import "../Variables.scss";
+
+.icon {
+  stroke: map-get($colors, darkBrown);
+  stroke-width: 2px;
+  fill: none;
+}
+
+.icon-x-mark{
+    height: 2.5rem;
+    @extend .icon;
+    height: 2.5rem;
+}
+.icon-bars{
+    height: 2.5rem;
+    @extend .icon;
+    height: 2.5rem;
+}
+.icon-search{
+    @extend .icon;
+    height: 20px;
+}
+.icon-chevron-down{
+    @extend .icon;
+    height: 1rem;
+    padding-left: 0.5rem;
+}
