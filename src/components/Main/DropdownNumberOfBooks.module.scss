@@ -1,0 +1,14 @@
+@import "../Variables.scss";
+
+.max-dropdown{
+    border-color: map-get($colors , lightBrown );
+    background-color: map-get($colors , superLightBrown );
+    color:  map-get($colors , lightBrown );
+    font-weight: map-get($fontWeight, bold );
+    font-size: map-get($fontSizes, secondary );
+    padding: 0.5rem 1rem 0.5rem 0.5rem;
+}
+
+select:focus{
+    outline-color: map-get($colors, darkBrown); 
+}

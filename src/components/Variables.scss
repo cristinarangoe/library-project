@@ -12,6 +12,7 @@ $secondaryFontFamily: "Montserrat", sans-serif;
 
 $fontSizes: (
   header: 21px,
+  title: 25px,
   primary: 18px,
   secondary: 16px,
   tertiary: 14px,
@@ -24,6 +25,11 @@ $fontWeight: (
   bold: 700,
 );
 
-$breakPointMobile: 600px;
+$breakPoints: (
+    small: 640px,
+    medium: 768px,
+    large: 1024px,
+    extraLarge: 1280px,
+)
 
 

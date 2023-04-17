@@ -1,0 +1,31 @@
+@import "../components/Variables.scss";
+
+.app-general {
+  height: 100vh;
+}
+.books-list {
+  background-color: map-get($colors, superLightBrown);
+  //top: 0;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-column-gap: 2rem;
+  grid-row-gap: 2rem;
+}
+@media (min-width: map-get($breakPoints, small)) and (max-width: (map-get($breakPoints, medium) - 1)) {
+  .books-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: map-get($breakPoints, medium)) and (max-width: (map-get($breakPoints, large ) - 1)) {
+  .books-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: map-get($breakPoints, large)) {
+  .books-list {
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 3rem;
+    grid-row-gap: 3rem;
+  }
+}

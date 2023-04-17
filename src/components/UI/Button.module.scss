@@ -1,0 +1,61 @@
+// @import "./Variables.scss";
+
+// .btn {
+//   //background-color: map-get($colors , lightBrown);
+//   color: map-get($colors, lightBrown);
+//   border-color: map-get($colors, lightBrown);
+//   background-color: map-get($colors, superLightBrown);
+//   font-size: map-get($fontSizes, secondary);
+//   font-weight: map-get($fontWeight, medium);
+//   border-radius: 2rem;
+//   padding: 0.5rem 0;
+// }
+// .btn:hover {
+//   color: white;
+//   border-color: map-get($colors, lightBrown);
+//   background-color: map-get($colors, lightBrown);
+// }
+// .btn:focus {
+//     color: map-get($colors, darkBrown);
+//     outline-color: map-get($colors, darkBrown);
+// }
+
+@import "../Variables.scss";
+
+.btn {
+  //color: map-get($colors, lightBrown);
+  //border-color: map-get($colors, lightBrown);
+  //background-color: map-get($colors, superLightBrown);
+  font-size: map-get($fontSizes, secondary);
+  font-family: $primaryFontFamily;
+  //font-weight: map-get($fontWeight, medium);
+  //border-radius: 2rem;
+  //padding: 0.5rem 0;
+}
+.btn:hover {
+  color: white;
+  border-color: map-get($colors, lightBrown);
+  background-color: map-get($colors, lightBrown);
+}
+.btn:focus {
+  color: map-get($colors, darkBrown);
+  outline-color: map-get($colors, darkBrown);
+}
+
+.btn-light {
+  color: map-get($colors, lightBrown);
+  border-color: map-get($colors, lightBrown);
+  background-color: map-get($colors, superLightBrown);
+}
+
+.btn-dark {
+  color: white;
+  border-color: map-get($colors, lightBrown);
+  background-color: map-get($colors, lightBrown);
+}
+
+.btn-focus {
+  color: map-get($colors, darkBrown);
+  outline-color: map-get($colors, darkBrown);
+  background-color: map-get($colors, superLightBrown);
+}

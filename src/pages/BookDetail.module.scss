@@ -1,0 +1,65 @@
+@import "../components/Variables.scss";
+
+.book-detail {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10%;
+  background-color: map-get($colors, superLightBrown);
+}
+
+.book-detail-img {
+  display: flex;
+  justify-content: center;
+  img {
+    max-width: 100%;
+    height: auto;
+    box-shadow: 5px 5px 20px grey;
+  }
+}
+
+.book-detail-content {
+  color: map-get($colors, darkBrown);
+  font-family: $primaryFontFamily;
+  margin-top: 1rem;
+  text-align: center;
+  h1 {
+    font-size: map-get($fontSizes, title);
+    font-weight: map-get($fontWeight, bold);
+  }
+  h2 {
+    font-size: map-get($fontSizes, primary);
+    font-weight: map-get($fontWeight, regular);
+    //color: map-get($colors, grey);
+  }
+  p {
+    font-size: map-get($fontSizes, secondary);
+    font-weight: map-get($fontWeight, regular);
+  }
+}
+.book-detail-container-description {
+  p {
+    padding: 1.5rem 2.5rem;
+    text-align: justify;
+  }
+  background-color: white;
+  border-radius: 3rem;
+}
+
+@media (min-width: map-get($breakPoints, medium)) {
+  .book-detail {
+    flex-direction: row;
+  }
+  .book-detail-img {
+    width: 50%;
+  }
+  .book-detail-content {
+    width: 50%;
+    padding-left: 1rem;
+  }
+  .book-detail-container-description {
+    p {
+      padding: 2rem 3rem;
+    }
+    border-radius: 5rem;
+  }
+}

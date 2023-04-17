@@ -1,0 +1,21 @@
+@import "../Variables.scss";
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  right: 0;
+}
+.pagination-button {
+  background-color: map-get($colors, superLightBrown);
+  font-size: map-get($fontSizes, secondary);
+  font-weight: map-get($fontWeight, medium);
+  margin: 0;
+  font-family: $secondaryFontFamily;
+}
+.pagination-icon {
+  height: map-get($fontSizes, tertiary);
+  stroke: map-get($colors, darkBrown);
+  stroke-width: 2px;
+  fill: none;
+}

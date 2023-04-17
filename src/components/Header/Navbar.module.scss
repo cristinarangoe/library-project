@@ -47,7 +47,7 @@
     display: flex;
   }
 }
-@media (min-width: $breakPointMobile) {
+@media (min-width: (map-get($breakPoints, small) + 1)) {
   .nav {
     display: flex;
     justify-content: space-between;

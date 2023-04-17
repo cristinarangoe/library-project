@@ -25,7 +25,7 @@
   }
 }
 
-@media (min-width: $breakPointMobile) {
+@media (min-width: (map-get($breakPoints, small) + 1)) {
   .nav-searchbar {
     margin: 0 2rem;
     width: 20rem;
