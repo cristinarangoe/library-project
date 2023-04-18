@@ -1,9 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import DropdownNumberOfBooks from "../components/Main/DropdownNumberOfBooks";
-import Pagination from "../components/Main/Pagination";
-import BookItem from "../components/Main/BookItem";
-import styles from "./BookListBySubject.module.scss"
+import BookList from "../components/Main/BookList";
 
 function BooksListBySubject() {
   const params = useParams();
@@ -57,24 +54,7 @@ function BooksListBySubject() {
       img: "https://covers.openlibrary.org/b/olid/OL31905190M-L.jpg",
     },
   ];
-  return (
-    <div>
-      This is the list for the subject: {params.subject}
-      <DropdownNumberOfBooks />
-      <div className={styles["books-list"]}>
-        {books.map((book, index) => (
-          <BookItem
-          id={book.id}
-            title={book.title}
-            author={book.author}
-            key={book.id}
-            img={book.img}
-          />
-        ))}
-      </div>
-      <Pagination/>
-    </div>
-  );
+  return <BookList books={books}/>;
 }
 
 export default BooksListBySubject;

@@ -1,7 +1,7 @@
 @import "../Variables.scss";
 .nav {
-  width: 100vw;
-  position: fixed;
+  width: 100%;
+  position: relative;
   top: 0;
   background-color: map-get($colors, superLightBrown);
 }
@@ -67,9 +67,11 @@
     color: map-get($colors, darkBrown);
     padding-left: 2rem;
     font-family: $secondaryFontFamily;
-    div {
+    h2 {
       font-size: map-get($fontSizes, header);
       font-weight: map-get($fontWeight, semibold);
+      margin: 0;
+      padding-right: 0.5rem;
     }
     .nav-ppal-dropdown-subject {
       display: flex;

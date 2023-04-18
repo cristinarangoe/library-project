@@ -3,7 +3,7 @@
 .book-detail {
   display: flex;
   flex-direction: column;
-  padding: 0 10%;
+  margin: 2rem;
   background-color: map-get($colors, superLightBrown);
 }
 
@@ -29,7 +29,6 @@
   h2 {
     font-size: map-get($fontSizes, primary);
     font-weight: map-get($fontWeight, regular);
-    //color: map-get($colors, grey);
   }
   p {
     font-size: map-get($fontSizes, secondary);

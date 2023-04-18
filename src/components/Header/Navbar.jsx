@@ -44,7 +44,7 @@ function Navbar() {
             className={styles["nav-ppal-dropdown"]}
           >
             <div className={styles["nav-ppal-dropdown-subject"]}>
-              <div>Categoria</div>
+              <h2 className="">Categoria</h2>
               <ChevronIconDown />
             </div>
             {dropdownClicked && (

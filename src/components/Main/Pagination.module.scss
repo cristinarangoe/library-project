@@ -3,19 +3,47 @@
 .pagination {
   display: flex;
   flex-direction: row;
-  position: absolute;
-  right: 0;
+  justify-content: center;
+  text-align: center;
+  margin: 0 2rem;
+  background-color: map-get($colors, superLightBrown);
+  button, p{
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  button:focus{
+    outline-color: map-get($colors, lightBrown);
+  }
+  button:hover{
+    border-color:map-get($colors, lightBrown); ;
+  }
+}
+.pagination-pages {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 .pagination-button {
-  background-color: map-get($colors, superLightBrown);
-  font-size: map-get($fontSizes, secondary);
+  font-size: map-get($fontSizes, primary);
   font-weight: map-get($fontWeight, medium);
   margin: 0;
   font-family: $secondaryFontFamily;
+  padding: 0;
+  background-color: map-get($colors, superLightBrown);
 }
-.pagination-icon {
-  height: map-get($fontSizes, tertiary);
-  stroke: map-get($colors, darkBrown);
-  stroke-width: 2px;
-  fill: none;
+.pagination-button-number {
+  @extend .pagination-button;
+}
+.pagination-button-icon-left {
+  @extend .pagination-button;
+  transform: rotate(90deg);
+}
+.pagination-button-icon-right {
+  @extend .pagination-button;
+  transform: rotate(270deg);
+}
+.pagination-button-active{
+  @extend .pagination-button;
+  background-color: map-get($colors, lightBrown);
+  color: white;
 }
