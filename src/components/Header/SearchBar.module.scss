@@ -33,3 +33,17 @@
   }
 }
 
+.nav-searchbar-dropdown {
+  background-color: white;
+  border: none;
+  border-radius: 30px;
+  margin: 0 10px;
+  outline: none;
+}
+
+.nav-searchbar-dividor {
+  height: auto;
+  background-color: map-get($colors, lightBrown);
+  width: 5px;
+  margin: 5px 0;
+}

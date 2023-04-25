@@ -1,28 +1,115 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./BookDetail.module.scss";
+import { useParams } from "react-router-dom";
+import Loader from "../components/UI/Loader";
 
 function BookDetail() {
-  const book = {
-    id: 1,
-    title: "The lord of the rings",
-    author: "Cristina Arango Escobsr",
-    img: "https://ia800606.us.archive.org/view_archive.php?archive=/9/items/olcovers38/olcovers38-L.zip&file=385209-L.jpg",
-    date: "14/04/2023",
-    description:
-      "Originally published from 1954 through 1956, J.R.R. Tolkien's richly complex series ushered in a new age of epic adventure storytelling. A philologist and illustrator who took inspiration from his work, Tolkien invented the modern heroic quest novel from the ground up, creating not just a world, but a domain, not just a lexicon, but a language, that would spawn countless imitators and lead to the inception of the epic fantasy genre. Today, THE LORD OF THE RINGS is considered ",
-  };
+  const [book, setBook] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const params = useParams();
+
+  const fetchBookHandler = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(
+        `https://openlibrary.org/${params.bookApi}/${params.id}.json`
+      );
+
+      if (!response.ok) {
+        throw new Error("Algo salió mal!");
+      }
+
+      const data = await response.json();
+
+      const authors = await Promise.all(
+        data.authors.map(async (aut) => {
+          const response = await fetch(
+            `https://openlibrary.org${aut.author.key}.json`
+          );
+          const author = await response.json();
+          return await author.name;
+        })
+      );
+
+      const date = new Date(data.created.value);
+
+      const transformedBook = {
+        id: data.key,
+        coverUrl:
+          data.covers &&
+          `https://covers.openlibrary.org/b/id/${data.covers[0]}-L.jpg`,
+        description:
+          data.description && data.description.value
+            ? data.description.value
+            : data.description,
+        authors: authors ? authors.join(", ") : "",
+        title: data.title,
+        subjects: data.subjects,
+        dateCreated: `${date.getDate().toString()}/${date
+          .getMonth()
+          .toString()}/${date.getFullYear().toString()}`,
+        publishDate: data.first_publish_date,
+      };
+
+      setBook(transformedBook);
+    } catch (error) {
+      setError(error.message);
+    }
+    setIsLoading(false);
+  }, [params]);
+
+  useEffect(() => {
+    fetchBookHandler();
+  }, [fetchBookHandler]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (error) {
+    return <p>{error}</p>;
+  }
+  if (!book) {
+    return <p>No se ha encontrado información acerca de este libro!</p>;
+  }
+
   return (
     <div className={styles["book-detail"]}>
       <div className={styles["book-detail-img"]}>
-        <img src={book.img} alt={book.title} />
+        <img src={book.coverUrl} alt={book.title} />
       </div>
       <div className={styles["book-detail-content"]}>
         <h1>{book.title}</h1>
-        <h2>{book.author}</h2>
-        <p>{book.date}</p>
-        <div className={styles["book-detail-container-description"]}>
-          <p>{book.description}</p>
+        {book.authors ? <h2>{book.authors}</h2> : <h2>Anónimo</h2>}
+        {book.description && (
+          <div className={styles["book-detail-container-description"]}>
+            <h3>Descripción:</h3>
+            <p>{book.description}</p>
+          </div>
+        )}
+        <div className={styles["book-detail-container-dates"]}>
+          {book.dateCreated && (
+            <div>
+              <h4>Fecha de creación:</h4>
+              <p>{book.dateCreated}</p>
+            </div>
+          )}
+          {book.publishDate && (
+            <div>
+              <h4>Fecha de publicación:</h4>
+              <p>{book.publishDate}</p>
+            </div>
+          )}
         </div>
+        {book.subjects && (
+          <div className={styles["book-detail-container-subjects"]}>
+            <h4>Categorías:</h4>
+            <p>
+              {book.subjects[0]}, {book.subjects[1]}, {book.subjects[2]} ...
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

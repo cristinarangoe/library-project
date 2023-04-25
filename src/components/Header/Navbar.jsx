@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import viteLogo from "/vite.svg";
+import bookLogo from "/bookLogo.svg";
 import styles from "./Navbar.module.scss";
 import SearchBar from "./SearchBar";
 import SubjectsList from "./SubjectsList";
@@ -37,7 +38,7 @@ function Navbar() {
           >
             {mobileMenuClicked ? <XMarkIcon /> : <BarsIcon />}
           </button>
-          <img src={viteLogo} className="" alt="Vite logo" />
+          <img src={bookLogo} className="" alt="Vite logo" />
           <div
             onMouseLeave={closeDropdownHandler}
             onMouseEnter={openDropdownHandler}

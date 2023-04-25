@@ -12,9 +12,9 @@ function App() {
       element: <RootLayout />,
       children: [
         { index: true, element: <Home /> },
-        { path: "books/search/:searchField", element: <BookListBySearch /> },
+        { path: "books/search/:searchType/:searchField", element: <BookListBySearch /> },
         { path: "books/subject/:subject", element: <BooksListBySubject /> },
-        { path: "books/:id", element: <BookDetail /> },
+        { path: "books/:bookApi/:id", element: <BookDetail /> },
       ],
     },
   ]);

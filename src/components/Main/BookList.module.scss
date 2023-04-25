@@ -1,12 +1,6 @@
 @import "../../styles/Variables.scss";
 @import "../../styles/Breakpoints.scss";
 
-.book-list-ppal {
-  height: 100%;
-  width: 100%;
-  background-color: map-get($colors, superLightBrown );
-  position: relative;
-}
 .books-list {
   background-color: map-get($colors, superLightBrown);
   display: grid;

@@ -8,6 +8,7 @@
   background-color: map-get($colors, superLightBrown);
   @include sm {
     flex-direction: row;
+    padding: 2rem 5rem;
   }
 }
 
@@ -41,23 +42,62 @@
     font-size: map-get($fontSizes, secondary);
     font-weight: map-get($fontWeight, regular);
   }
+  h3,h4,p{
+    margin: 0;
+  }
+  h3,h4{
+    color: map-get($colors, darkBrown);
+    font-size: map-get($fontSizes, secondary);
+    font-weight: map-get($fontSizes, bold);
+  }
   @include sm {
     width: 50%;
     padding-left: 1rem;
   }
 }
 .book-detail-container-description {
+  overflow: auto;
+  h3 {
+    padding: 1.5rem 0 0 2.5rem;
+  }
   p {
     padding: 1.5rem 2.5rem;
     text-align: justify;
   }
   background-color: white;
-  border-radius: 3rem;
+  border-radius: 1.5rem;
   @include sm {
-    p {
-      padding: 2rem 3rem;
+    h3 {
+      padding-top: 2rem;
     }
-    border-radius: 5rem;
+    p {
+      padding: 0 3rem 2rem 3rem;
+    }
+    border-radius: 1.5rem;
   }
+}
+.book-detail-container-dates {
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 1.5rem;
+  justify-content: center;
+  div {
+    background-color: white;
+    width: 50%;
+    height: auto;
+    border-radius: 1.5rem;
+    padding: 1.3rem 1rem;
+    p {
+      padding-top: 0.5rem;
+    }
+  }
+}
+.book-detail-container-subjects{
+  margin-top: 2rem;
+  background-color: white;
+  border-radius: 1.5rem;
+  padding: 1.3rem 1rem;
 }
 

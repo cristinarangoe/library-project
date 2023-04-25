@@ -7,15 +7,19 @@
   text-align: center;
   margin: 0 2rem;
   background-color: map-get($colors, superLightBrown);
-  button, p{
-    width: 2.5rem;
+  padding-bottom: 2rem;
+  button,
+  p {
     height: 2.5rem;
+    min-width: 2.5rem;
+    width: auto;
+    padding: 0 0.2rem;
   }
-  button:focus{
+  button:focus {
     outline-color: map-get($colors, lightBrown);
   }
-  button:hover{
-    border-color:map-get($colors, lightBrown); ;
+  button:hover {
+    border-color: map-get($colors, lightBrown);
   }
 }
 .pagination-pages {
@@ -34,6 +38,11 @@
 .pagination-button-number {
   @extend .pagination-button;
 }
+.pagination-button-number-active {
+  @extend .pagination-button;
+  background-color: map-get($colors, lightBrown);
+  color: white;
+}
 .pagination-button-icon-left {
   @extend .pagination-button;
   transform: rotate(90deg);
@@ -41,9 +50,4 @@
 .pagination-button-icon-right {
   @extend .pagination-button;
   transform: rotate(270deg);
-}
-.pagination-button-active{
-  @extend .pagination-button;
-  background-color: map-get($colors, lightBrown);
-  color: white;
 }
