@@ -1,9 +1,17 @@
-@import "../Variables.scss";
+@import "../../styles/Variables.scss";
+@import "../../styles/Breakpoints.scss";
+
 .nav {
-  width: 100vw;
-  position: fixed;
+  width: 100%;
+  position: relative;
   top: 0;
   background-color: map-get($colors, superLightBrown);
+  @include sm {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+  }
 }
 .nav-ppal {
   display: flex;
@@ -18,13 +26,37 @@
   button:hover {
     border: none;
   }
+  @include sm {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+  }
 }
 .nav-ppal-dropdown {
   display: none;
+  @include sm {
+    display: flex;
+    color: map-get($colors, darkBrown);
+    padding-left: 2rem;
+    font-family: $secondaryFontFamily;
+    h2 {
+      font-size: map-get($fontSizes, header);
+      font-weight: map-get($fontWeight, semibold);
+      margin: 0;
+      padding-right: 0.5rem;
+    }
+    .nav-ppal-dropdown-subject {
+      display: flex;
+      align-items: center;
+    }
+  }
 }
 .nav-ppal-mobile-button {
   background-color: map-get($colors, superLightBrown);
   padding: 0;
+  @include sm {
+    display: none;
+  }
 }
 
 .side-nav-mobile {
@@ -47,33 +79,35 @@
     display: flex;
   }
 }
-@media (min-width: $breakPointMobile) {
-  .nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 0;
-  }
-  .nav-ppal {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem;
-  }
-  .nav-ppal-mobile-button {
-    display: none;
-  }
-  .nav-ppal-dropdown {
-    display: flex;
-    color: map-get($colors, darkBrown);
-    padding-left: 2rem;
-    font-family: $secondaryFontFamily;
-    div {
-      font-size: map-get($fontSizes, header);
-      font-weight: map-get($fontWeight, semibold);
-    }
-    .nav-ppal-dropdown-subject {
-      display: flex;
-      align-items: center;
-    }
-  }
-}
+// @media (min-width: (640px)) {
+//   .nav {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     padding: 0.5rem 0;
+//   }
+//   .nav-ppal {
+//     display: flex;
+//     justify-content: space-between;
+//     padding: 1rem;
+//   }
+//   .nav-ppal-mobile-button {
+//     display: none;
+//   }
+//   .nav-ppal-dropdown {
+//     display: flex;
+//     color: map-get($colors, darkBrown);
+//     padding-left: 2rem;
+//     font-family: $secondaryFontFamily;
+//     h2 {
+//       font-size: map-get($fontSizes, header);
+//       font-weight: map-get($fontWeight, semibold);
+//       margin: 0;
+//       padding-right: 0.5rem;
+//     }
+//     .nav-ppal-dropdown-subject {
+//       display: flex;
+//       align-items: center;
+//     }
+//   }
+// }

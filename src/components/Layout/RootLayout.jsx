@@ -5,7 +5,7 @@ import styles from "./RootLayout.module.scss";
 
 function RootLayout() {
   return (
-    <div className={styles["root"]}>
+    <div className={styles["ppal"]}>
       <Navbar />
       <main>
         <Outlet />

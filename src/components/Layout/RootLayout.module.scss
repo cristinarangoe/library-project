@@ -1,6 +1,8 @@
-@import "../Variables.scss";
+@import "../../styles/Variables.scss";
 
-.root{
+.ppal{
     margin: 0px;
     padding: 0px;
+    background-color: map-get($colors, superLightBrown );
+    height: 100vh;
 }

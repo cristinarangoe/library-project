@@ -1,4 +1,5 @@
-@import "../Variables.scss";
+@import "../../styles/Variables.scss";
+@import "../../styles/Breakpoints.scss";
 
 .nav-searchbar {
   border-radius: 30px;
@@ -10,7 +11,7 @@
   input {
     font-family: $secondaryFontFamily;
     color: map-get($colors, darkBrown);
-    font-weight: map-get($fontWeight, regular);;
+    font-weight: map-get($fontWeight, regular);
     border: none;
     border-radius: 30px;
     width: 100%;
@@ -23,10 +24,7 @@
     background-color: map-get($colors, lightBrown);
     border-radius: 30px;
   }
-}
-
-@media (min-width: $breakPointMobile) {
-  .nav-searchbar {
+  @include sm {
     margin: 0 2rem;
     width: 20rem;
     input {
@@ -34,3 +32,4 @@
     }
   }
 }
+
