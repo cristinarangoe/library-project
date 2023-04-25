@@ -1,10 +1,14 @@
-@import "../components/Variables.scss";
+@import "../styles/Variables.scss";
+@import "../styles/Breakpoints.scss";
 
 .book-detail {
   display: flex;
   flex-direction: column;
   margin: 2rem;
   background-color: map-get($colors, superLightBrown);
+  @include sm {
+    flex-direction: row;
+  }
 }
 
 .book-detail-img {
@@ -14,6 +18,9 @@
     max-width: 100%;
     height: auto;
     box-shadow: 5px 5px 20px grey;
+  }
+  @include sm {
+    width: 50%;
   }
 }
 
@@ -34,6 +41,10 @@
     font-size: map-get($fontSizes, secondary);
     font-weight: map-get($fontWeight, regular);
   }
+  @include sm {
+    width: 50%;
+    padding-left: 1rem;
+  }
 }
 .book-detail-container-description {
   p {
@@ -42,23 +53,11 @@
   }
   background-color: white;
   border-radius: 3rem;
-}
-
-@media (min-width: map-get($breakPoints, medium)) {
-  .book-detail {
-    flex-direction: row;
-  }
-  .book-detail-img {
-    width: 50%;
-  }
-  .book-detail-content {
-    width: 50%;
-    padding-left: 1rem;
-  }
-  .book-detail-container-description {
+  @include sm {
     p {
       padding: 2rem 3rem;
     }
     border-radius: 5rem;
   }
 }
+

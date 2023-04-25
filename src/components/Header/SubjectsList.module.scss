@@ -1,4 +1,4 @@
-@import "../Variables.scss";
+@import "../../styles/Variables.scss";
 
 .main-nav-ppal-dropdown-option {
   cursor: pointer;
@@ -25,7 +25,8 @@
   background-color: map-get($colors, superLightBrown);
   padding: 0;
   border-radius: 10px;
-  top: 45px
+  top: 45px;
+  z-index: 10;
 }
 
 .dropdown-menu-mobile{

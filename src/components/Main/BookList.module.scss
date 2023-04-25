@@ -1,4 +1,5 @@
-@import "../Variables.scss";
+@import "../../styles/Variables.scss";
+@import "../../styles/Breakpoints.scss";
 
 .book-list-ppal {
   height: 100%;
@@ -13,19 +14,13 @@
   grid-column-gap: 2rem;
   grid-row-gap: 2rem;
   margin: 2rem;
-}
-@media (min-width: map-get($breakPoints, small)) and (max-width: (map-get($breakPoints, medium) - 1)) {
-  .books-list {
+  @include sm-md {
     grid-template-columns: repeat(2, 1fr);
   }
-}
-@media (min-width: map-get($breakPoints, medium)) and (max-width: (map-get($breakPoints, large ) - 1)) {
-  .books-list {
+  @include md-lg {
     grid-template-columns: repeat(3, 1fr);
   }
-}
-@media (min-width: map-get($breakPoints, large)) {
-  .books-list {
+  @include lg {
     grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 3rem;
     grid-row-gap: 3rem;

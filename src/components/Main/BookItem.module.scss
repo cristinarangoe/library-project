@@ -1,4 +1,6 @@
-@import "../Variables.scss";
+@import "../../styles/Variables.scss";
+@import "../../styles/Breakpoints.scss";
+
 .book-item {
   display: flex;
   flex-direction: row;
