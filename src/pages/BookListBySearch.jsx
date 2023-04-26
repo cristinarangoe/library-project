@@ -15,7 +15,6 @@ function BookListBySearch() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [lowerPageRange, setLowerPageRange] = useState(1);
-  const [higherPageRange, setHigherPageRange] = useState(0);
 
   const params = useParams();
 
@@ -55,8 +54,7 @@ function BookListBySearch() {
 
   useEffect(() => {
     fetchBooksHandler();
-    setHigherPageRange(totalPages >= 5 ? 5 : totalPages);
-  }, [fetchBooksHandler, totalPages]);
+  }, [fetchBooksHandler]);
 
   if (isLoading) {
     return <Loader />;
@@ -83,8 +81,6 @@ function BookListBySearch() {
         totalPages={totalPages}
         lowerPageRange={lowerPageRange}
         setLowerPageRange={setLowerPageRange}
-        higherPageRange={higherPageRange}
-        setHigherPageRange={setHigherPageRange}
       />
     </div>
   );

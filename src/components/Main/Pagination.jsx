@@ -8,9 +8,9 @@ function Pagination(props) {
     if (props.currentPage === props.totalPages) return;
     props.setOffset(props.offset + props.limit);
     props.setCurrentPage((prevState) => prevState + 1);
+    if (+props.totalPages <= 5) return;
     if (props.currentPage === +props.totalPages) {
       props.setLowerPageRange(+props.totalPages - 5);
-      props.setHigherPageRange(+props.totalPages - 1);
       return;
     }
     if (
@@ -18,11 +18,9 @@ function Pagination(props) {
       +props.currentPage < +props.totalPages
     ) {
       props.setLowerPageRange(+props.totalPages - 5);
-      props.setHigherPageRange(+props.totalPages - 1);
       return;
     }
     props.setLowerPageRange(props.lowerPageRange + 1);
-    props.setHigherPageRange(props.lowerPageRange + 1);
   };
 
   const previousPageClickHandler = () => {
@@ -31,27 +29,26 @@ function Pagination(props) {
     props.setOffset(props.offset - props.limit);
     props.setCurrentPage((prevState) => prevState - 1);
 
+    if (+props.totalPages <= 5) return;
+
     if (
       +props.totalPages - 5 < +props.currentPage &&
       +props.currentPage <= +props.totalPages
     ) {
       props.setLowerPageRange(+props.totalPages - 5);
-      props.setHigherPageRange(+props.totalPages - 1);
       return;
     }
-
     props.setLowerPageRange(props.lowerPageRange - 1);
-    props.setHigherPageRange(props.lowerPageRange - 1);
   };
 
   const goToAPageClickHandler = (e) => {
     props.setOffset(props.limit * (e.target.value - 1));
     props.setCurrentPage(+e.target.value);
-    if (props.higherPageRange === props.totalPages) return;
+
+    if (+props.totalPages <= 5) return;
 
     if (+e.target.value === +props.totalPages) {
       props.setLowerPageRange(+props.totalPages - 5);
-      props.setHigherPageRange(+props.totalPages - 1);
       return;
     }
     if (
@@ -59,13 +56,10 @@ function Pagination(props) {
       +e.target.value < +props.totalPages
     ) {
       props.setLowerPageRange(+props.totalPages - 5);
-      props.setHigherPageRange(+props.totalPages - 1);
       return;
     }
     props.setLowerPageRange(+e.target.value);
-    props.setHigherPageRange(+e.target.value + 5);
   };
-
   return (
     <div className={styles["pagination"]}>
       <div className={styles["pagination-arrow"]}>
@@ -145,7 +139,5 @@ Pagination.propTypes = {
   totalPages: PropTypes.number,
   lowerPageRange: PropTypes.number,
   setLowerPageRange: PropTypes.func,
-  higherPageRange: PropTypes.number,
-  setHigherPageRange: PropTypes.func,
 };
 export default Pagination;
