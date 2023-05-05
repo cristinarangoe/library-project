@@ -1,11 +1,13 @@
 import React from "react";
 import styles from "./DropdownNumberOfBooks.module.scss";
-import { PropTypes } from "prop-types";
 
-function DropdownNumberOfBooks(props) {
+const DropdownNumberOfBooks: React.FC<{
+  setLimit: (num: number) => void;
+  limit: number;
+}> = (props) => {
   const maxBooksNumber = [5, 10, 15, 20];
 
-  const selectedOptionChangeHandler = (e) => {
+  const selectedOptionChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     props.setLimit(+e.target.value);
   };
 
@@ -30,11 +32,6 @@ function DropdownNumberOfBooks(props) {
       </select>
     </div>
   );
-}
-
-DropdownNumberOfBooks.propTypes = {
-  setLimit: PropTypes.func,
-  limit: PropTypes.number,
 };
 
 export default DropdownNumberOfBooks;

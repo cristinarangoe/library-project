@@ -1,20 +1,16 @@
 import React from "react";
 import styles from "./BookList.module.scss";
 import BookItem from "./BookItem";
-import { PropTypes } from "prop-types";
+import Book from "../../models/book";
 
-function BookList(props) {
+const BookList: React.FC<{books:Book[]}> = (props) => {
   return (
     <div className={styles["books-list"]}>
-      {props.books.map((book) => (
+      {props.books.map((book: Book) => (
         <BookItem book={book} key={book.id} />
       ))}
     </div>
   );
 }
-
-BookList.propTypes = {
-  books: PropTypes.array,
-};
 
 export default BookList;

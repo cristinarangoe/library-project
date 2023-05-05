@@ -1,12 +1,21 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styles from "./BookDetail.module.scss";
 import { useParams } from "react-router-dom";
 import Loader from "../components/UI/Loader";
+import BookDetailType from "../models/bookDetail";
+
+type Key = {
+  key: string;
+}
+type Author= {
+  author: Key;
+  type: Key;
+}
 
 function BookDetail() {
-  const [book, setBook] = useState({});
+  const [book, setBook] = useState<BookDetailType>({} as BookDetailType);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<null | string>(null);
   const params = useParams();
 
   const fetchBookHandler = useCallback(async () => {
@@ -24,7 +33,7 @@ function BookDetail() {
       const data = await response.json();
 
       const authors = await Promise.all(
-        data.authors.map(async (aut) => {
+        data.authors.map(async (aut: Author) => {
           const response = await fetch(
             `https://openlibrary.org${aut.author.key}.json`
           );
@@ -35,7 +44,7 @@ function BookDetail() {
 
       const date = new Date(data.created.value);
 
-      const transformedBook = {
+      const transformedBook: BookDetailType = {
         id: data.key,
         coverUrl:
           data.covers &&
@@ -55,7 +64,7 @@ function BookDetail() {
 
       setBook(transformedBook);
     } catch (error) {
-      setError(error.message);
+      if(error instanceof Error) setError(error.message);
     }
     setIsLoading(false);
   }, [params]);

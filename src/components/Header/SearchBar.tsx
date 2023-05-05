@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import styles from "./SearchBar.module.scss";
 import SearchIcon from "../UI/SearchIcon";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+type DropdownOption = {
+  id: string;
+  name: string;
+}
 
 function SearchBar() {
   const [inputText, setInputText] = useState("");
@@ -16,7 +21,7 @@ function SearchBar() {
     { id: "subject", name: "Categoría" },
   ];
 
-  const inputTextChangeHandler = (event) => {
+  const inputTextChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(event.target.value);
   };
 
@@ -26,9 +31,10 @@ function SearchBar() {
     setSearchOption("q");
   };
 
-  const selectedOptionDropdownChangeHandler = (e) => {
+  const selectedOptionDropdownChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSearchOption(e.target.value);
   };
+
   return (
     <div className={styles["nav-searchbar"]}>
       <select
@@ -38,10 +44,10 @@ function SearchBar() {
         onChange={selectedOptionDropdownChangeHandler}
         value={searchOption}
       >
-        {optionsDropdown.map((opt) => {
+        {optionsDropdown.map((opt: DropdownOption) => {
           {
-            return opt === "Todos" ? (
-              <option key={opt.name} value={opt.id} selected>
+            return opt.name === "Todos" ? (
+              <option key={opt.name} value={opt.id} defaultValue={"Todos"}>
                 {opt.name}
               </option>
             ) : (

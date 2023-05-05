@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import viteLogo from "/vite.svg";
+import { useState } from "react";
 import bookLogo from "/bookLogo.svg";
 import styles from "./Navbar.module.scss";
 import SearchBar from "./SearchBar";
@@ -9,8 +8,8 @@ import BarsIcon from "../UI/BarsIcon";
 import ChevronIconDown from "../UI/ChevronIconDown";
 
 function Navbar() {
-  const [mobileMenuClicked, setMobileMenuClicked] = useState(false);
-  const [dropdownClicked, setDropdownClicked] = useState(false);
+  const [mobileMenuClicked, setMobileMenuClicked] = useState<boolean>(false);
+  const [dropdownClicked, setDropdownClicked] = useState<boolean>(false);
 
   const changeMobileMenuClickHandler = () => {
     setMobileMenuClicked((prevState) => !prevState);
@@ -52,6 +51,7 @@ function Navbar() {
               <SubjectsList
                 isMobile={false}
                 setDropdownClicked={setDropdownClicked}
+                setMobileClicked={setMobileMenuClicked}
               />
             )}
           </div>

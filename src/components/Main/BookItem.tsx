@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "./BookItem.module.scss";
 import { Link } from "react-router-dom";
-import { PropTypes } from "prop-types";
+import Book from "../../models/book";
 
-function BookItem(props) {
+const BookItem: React.FC<{book:Book}> = (props) => {
   const path = `/books${props.book.id}`;
   return (
     <div className={styles["book-item"]}>
@@ -26,9 +26,5 @@ function BookItem(props) {
     </div>
   );
 }
-
-BookItem.propTypes = {
-  book: PropTypes.object,
-};
 
 export default BookItem;

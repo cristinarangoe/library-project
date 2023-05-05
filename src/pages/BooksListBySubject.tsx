@@ -1,15 +1,28 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BookList from "../components/Main/BookList";
 import styles from "./BookListPage.module.scss";
 import DropdownNumberOfBooks from "../components/Main/DropdownNumberOfBooks";
 import Pagination from "../components/Main/Pagination";
 import Loader from "../components/UI/Loader";
+import Book from "../models/book";
+
+type Author = {
+  key: string;
+  name: string;
+}
+
+type ApiBook = {
+  key: string;
+  cover_edition_key?: string;
+  title: string;
+  authors: Author[];
+}
 
 function BooksListBySubject() {
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [limit, setLimit] = useState(10);
   const [offset, setOffset] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,19 +45,19 @@ function BooksListBySubject() {
 
       const data = await response.json();
 
-      const transformedBooks = data.works.map((book) => {
+      const transformedBooks: Book[] = data.works.map((book: ApiBook) => {
         return {
           id: book.key,
           coverUrl: book.cover_edition_key && `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-L.jpg`,
           title: book.title,
-          authors: book.authors.map((author) => author.name).join(", "),
+          authors: book.authors.map((author: Author) => author.name).join(", "),
         };
       });
 
       setBooks(transformedBooks);
       setTotalPages(5)
     } catch (error) {
-      setError(error.message);
+      if(error instanceof Error) setError(error.message);
     }
     setIsLoading(false);
   }, [params, limit, offset]);

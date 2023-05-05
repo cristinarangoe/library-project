@@ -1,9 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./SubjectsList.module.scss";
-import { PropTypes } from "prop-types";
 
-function SubjectsList(props) {
+const SubjectsList: React.FC<{
+  setMobileClicked: React.Dispatch<React.SetStateAction<boolean>>
+  isMobile: boolean;
+  setDropdownClicked: React.Dispatch<React.SetStateAction<boolean>>;
+}> = (props) => {
   const subjectsLists = [
     { name: "Fantasia", id: "fantasy" },
     { name: "Cocina", id: "cooking" },
@@ -24,7 +27,7 @@ function SubjectsList(props) {
 
   const changeListDisplayHandler = () => {
     props.setDropdownClicked((prevState) => !prevState);
-    props.isMobile && props.setMobileClicked((prevState) => !prevState);
+    props.isMobile && props.setMobileClicked((prevState: boolean) => !prevState);
   };
 
   return (
@@ -41,12 +44,6 @@ function SubjectsList(props) {
       ))}
     </ul>
   );
-}
-
-SubjectsList.propTypes = {
-  setMobileClicked: PropTypes.func,
-  isMobile: PropTypes.bool,
-  setDropdownClicked: PropTypes.func,
 };
 
 export default SubjectsList;

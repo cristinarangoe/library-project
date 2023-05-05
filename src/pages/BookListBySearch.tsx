@@ -1,15 +1,23 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BookList from "../components/Main/BookList";
 import styles from "./BookListPage.module.scss";
 import DropdownNumberOfBooks from "../components/Main/DropdownNumberOfBooks";
 import Pagination from "../components/Main/Pagination";
 import Loader from "../components/UI/Loader";
+import Book from "../models/book";
+
+type ApiBook = {
+  key: string;
+  cover_edition_key?: string;
+  title: string;
+  author_name: string[];
+}
 
 function BookListBySearch() {
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<null | string>(null);
   const [limit, setLimit] = useState(10);
   const [offset, setOffset] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,7 +29,7 @@ function BookListBySearch() {
   const fetchBooksHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
-    const convertedParams = params.searchField.replace(/\s/g, "+");
+    const convertedParams: string = params.searchField ? params.searchField.replace(/\s/g, "+") : "";
 
     try {
       const response = await fetch(
@@ -34,7 +42,7 @@ function BookListBySearch() {
 
       const data = await response.json();
 
-      const transformedBooks = data.docs.map((book) => {
+      const transformedBooks: Book[] = data.docs.map((book: ApiBook) => {
         return {
           id: book.key,
           coverUrl:
@@ -47,7 +55,7 @@ function BookListBySearch() {
       setBooks(transformedBooks);
       setTotalPages(Math.ceil(data.numFound / limit));
     } catch (error) {
-      setError(error.message);
+      if(error instanceof Error) setError(error.message);
     }
     setIsLoading(false);
   }, [params, limit, offset]);
