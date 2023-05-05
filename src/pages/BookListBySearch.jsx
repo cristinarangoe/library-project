@@ -1,15 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BookList from "../components/Main/BookList";
-import styles from "./BookListPage.module.scss";
-import DropdownNumberOfBooks from "../components/Main/DropdownNumberOfBooks";
-import Pagination from "../components/Main/Pagination";
-import Loader from "../components/UI/Loader";
+import dataTransformation from "../utils/dataTranformationBookSearch";
+import useFetch from "../utils/useFetch";
 
 function BookListBySearch() {
   const [books, setBooks] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [limit, setLimit] = useState(10);
   const [offset, setOffset] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,71 +14,37 @@ function BookListBySearch() {
 
   const params = useParams();
 
-  const fetchBooksHandler = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    const convertedParams = params.searchField.replace(/\s/g, "+");
+  const convertedParams = params.searchField.replace(/\s/g, "+");
+  const { data, isLoading, error } = useFetch(
+    `https://openlibrary.org/search.json?${params.searchType}=${convertedParams}&limit=${limit}&offset=${offset}`
+  );
 
-    try {
-      const response = await fetch(
-        `https://openlibrary.org/search.json?${params.searchType}=${convertedParams}&limit=${limit}&offset=${offset}`
-      );
-
-      if (!response.ok) {
-        throw new Error("Algo salió mal!");
-      }
-
-      const data = await response.json();
-
-      const transformedBooks = data.docs.map((book) => {
-        return {
-          id: book.key,
-          coverUrl:
-            book.cover_edition_key &&
-            `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-L.jpg`,
-          title: book.title,
-          authors: book.author_name.join(", "),
-        };
-      });
-      setBooks(transformedBooks);
-      setTotalPages(Math.ceil(data.numFound / limit));
-    } catch (error) {
-      setError(error.message);
-    }
-    setIsLoading(false);
-  }, [params, limit, offset]);
+  const getTranformatedData = async () => {
+    if (!data) return;
+    const transformedBooks = await dataTransformation(data);
+    setBooks(transformedBooks);
+    setTotalPages(Math.ceil(data.numFound / limit));
+  };
 
   useEffect(() => {
-    fetchBooksHandler();
-  }, [fetchBooksHandler]);
+    getTranformatedData();
+  }, [data]);
 
-  if (isLoading) {
-    return <Loader />;
-  }
-  if (error) {
-    return <p>{error}</p>;
-  }
-  if (books.length === 0) {
-    return (
-      <p>No se encontró ningún libro en esta búsqueda: {params.searchField}</p>
-    );
-  }
   return (
-    <div className={styles["book-list-ppal"]}>
-      <h1>Búsqueda de: {params.searchField}</h1>
-      <DropdownNumberOfBooks setLimit={setLimit} limit={limit} />
-      <BookList books={books} />
-      <Pagination
-        limit={limit}
-        offset={offset}
-        setOffset={setOffset}
-        setCurrentPage={setCurrentPage}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        lowerPageRange={lowerPageRange}
-        setLowerPageRange={setLowerPageRange}
-      />
-    </div>
+    <BookList
+      isLoading={isLoading}
+      error={error}
+      books={books}
+      limit={limit}
+      setLimit={setLimit}
+      offset={offset}
+      setOffset={setOffset}
+      setCurrentPage={setCurrentPage}
+      currentPage={currentPage}
+      totalPages={totalPages}
+      lowerPageRange={lowerPageRange}
+      setLowerPageRange={setLowerPageRange}
+    />
   );
 }
 

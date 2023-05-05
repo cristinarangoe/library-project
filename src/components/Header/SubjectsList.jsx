@@ -34,8 +34,8 @@ function SubjectsList(props) {
         props.isMobile && styles["dropdown-menu-mobile"]
       }`}
     >
-      {subjectsLists.map((sub, index) => (
-        <li key={index} className={styles["main-nav-ppal-dropdown-option"]}>
+      {subjectsLists.map(sub => (
+        <li key={sub.id} className={styles["main-nav-ppal-dropdown-option"]}>
           <Link to={`/books/subject/${sub.id}`}>{sub.name}</Link>
         </li>
       ))}

@@ -39,9 +39,8 @@ function SearchBar() {
         value={searchOption}
       >
         {optionsDropdown.map((opt) => {
-          {
-            return opt === "Todos" ? (
-              <option key={opt.name} value={opt.id} selected>
+            return opt.name === "Todos" ? (
+              <option key={opt.name} value={opt.id} defaultValue="Todos">
                 {opt.name}
               </option>
             ) : (
@@ -49,7 +48,6 @@ function SearchBar() {
                 {opt.name}
               </option>
             );
-          }
         })}
       </select>
       <div className={styles["nav-searchbar-dividor"]} />

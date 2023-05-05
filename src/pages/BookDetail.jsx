@@ -1,68 +1,25 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./BookDetail.module.scss";
 import { useParams } from "react-router-dom";
 import Loader from "../components/UI/Loader";
+import useFetch from "../utils/useFetch";
+import dataTransformation from "../utils/dataTransformationBookDetail";
 
 function BookDetail() {
   const [book, setBook] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const params = useParams();
+  const { data, isLoading, error } = useFetch(
+    `https://openlibrary.org/${params.bookApi}/${params.id}.json`
+  );
 
-  const fetchBookHandler = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(
-        `https://openlibrary.org/${params.bookApi}/${params.id}.json`
-      );
-
-      if (!response.ok) {
-        throw new Error("Algo salió mal!");
-      }
-
-      const data = await response.json();
-
-      const authors = await Promise.all(
-        data.authors.map(async (aut) => {
-          const response = await fetch(
-            `https://openlibrary.org${aut.author.key}.json`
-          );
-          const author = await response.json();
-          return await author.name;
-        })
-      );
-
-      const date = new Date(data.created.value);
-
-      const transformedBook = {
-        id: data.key,
-        coverUrl:
-          data.covers &&
-          `https://covers.openlibrary.org/b/id/${data.covers[0]}-L.jpg`,
-        description:
-          data.description && data.description.value
-            ? data.description.value
-            : data.description,
-        authors: authors ? authors.join(", ") : "",
-        title: data.title,
-        subjects: data.subjects,
-        dateCreated: `${date.getDate().toString()}/${date
-          .getMonth()
-          .toString()}/${date.getFullYear().toString()}`,
-        publishDate: data.first_publish_date,
-      };
-
-      setBook(transformedBook);
-    } catch (error) {
-      setError(error.message);
-    }
-    setIsLoading(false);
-  }, [params]);
+  const getTranformatedData = async () => {
+    const transformedBooks = await dataTransformation(data);
+    setBook(transformedBooks);
+  }
 
   useEffect(() => {
-    fetchBookHandler();
-  }, [fetchBookHandler]);
+    getTranformatedData();
+  }, [data])
 
   if (isLoading) {
     return <Loader />;
@@ -81,7 +38,7 @@ function BookDetail() {
       </div>
       <div className={styles["book-detail-content"]}>
         <h1>{book.title}</h1>
-        {book.authors ? <h2>{book.authors}</h2> : <h2>Anónimo</h2>}
+        <h2>{book.authors}</h2>
         {book.description && (
           <div className={styles["book-detail-container-description"]}>
             <h3>Descripción:</h3>
