@@ -1,12 +1,17 @@
 import React from "react";
 import styles from "./DropdownNumberOfBooks.module.scss";
-import { PropTypes } from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { paginationActions } from "../../store/pagination";
 
-function DropdownNumberOfBooks(props) {
+function DropdownNumberOfBooks() {
+  const dispatch = useDispatch();
+
+  const limit = useSelector((state) => state.pagination.limit);
+
   const maxBooksNumber = [5, 10, 15, 20];
 
   const selectedOptionChangeHandler = (e) => {
-    props.setLimit(+e.target.value);
+    dispatch(paginationActions.setLimit(+e.target.value));
   };
 
   return (
@@ -16,7 +21,7 @@ function DropdownNumberOfBooks(props) {
         id="maxBooks"
         className={styles["max-dropdown"]}
         onChange={selectedOptionChangeHandler}
-        value={props.limit}
+        value={limit}
       >
         {maxBooksNumber.map((num, index) => (
           <option
@@ -31,10 +36,5 @@ function DropdownNumberOfBooks(props) {
     </div>
   );
 }
-
-DropdownNumberOfBooks.propTypes = {
-  setLimit: PropTypes.func,
-  limit: PropTypes.number,
-};
 
 export default DropdownNumberOfBooks;

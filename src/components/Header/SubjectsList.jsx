@@ -2,8 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./SubjectsList.module.scss";
 import { PropTypes } from "prop-types";
+import { useDispatch } from "react-redux";
+import { paginationActions } from "../../store/pagination";
 
 function SubjectsList(props) {
+  const dispatch = useDispatch();
+
   const subjectsLists = [
     { name: "Fantasia", id: "fantasy" },
     { name: "Cocina", id: "cooking" },
@@ -25,6 +29,8 @@ function SubjectsList(props) {
   const changeListDisplayHandler = () => {
     props.setDropdownClicked((prevState) => !prevState);
     props.isMobile && props.setMobileClicked((prevState) => !prevState);
+    dispatch(paginationActions.setLimit(10));
+    dispatch(paginationActions.goToAPage(1));
   };
 
   return (
@@ -34,7 +40,7 @@ function SubjectsList(props) {
         props.isMobile && styles["dropdown-menu-mobile"]
       }`}
     >
-      {subjectsLists.map(sub => (
+      {subjectsLists.map((sub) => (
         <li key={sub.id} className={styles["main-nav-ppal-dropdown-option"]}>
           <Link to={`/books/subject/${sub.id}`}>{sub.name}</Link>
         </li>

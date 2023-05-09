@@ -3,16 +3,18 @@ import { useParams } from "react-router-dom";
 import BookList from "../components/Main/BookList";
 import useFetch from "../utils/useFetch";
 import dataTransformation from "../utils/dataTransformationBookSubject";
+import { useDispatch, useSelector } from "react-redux";
+import { paginationActions } from "../store/pagination";
 
 function BooksListBySubject() {
   const [books, setBooks] = useState([]);
-  const [limit, setLimit] = useState(10);
-  const [offset, setOffset] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [lowerPageRange, setLowerPageRange] = useState(1);
 
   const params = useParams();
+  const dispatch = useDispatch();
+
+  const offset = useSelector((state) => state.pagination.offset);
+  const limit = useSelector((state) => state.pagination.limit);
+
   const { data, isLoading, error } = useFetch(
     `https://openlibrary.org/subjects/${params.subject}.json?limit=${limit}&offset=${offset}`
   );
@@ -21,7 +23,9 @@ function BooksListBySubject() {
     if (!data) return;
     const transformedBooks = await dataTransformation(data);
     setBooks(transformedBooks);
-    setTotalPages(Math.ceil(data.work_count / limit));
+    dispatch(
+      paginationActions.setTotalPages(+Math.ceil(data.work_count / limit))
+    );
   };
   useEffect(() => {
     getTranformatedData();
@@ -32,15 +36,6 @@ function BooksListBySubject() {
       isLoading={isLoading}
       error={error}
       books={books}
-      limit={limit}
-      setLimit={setLimit}
-      offset={offset}
-      setOffset={setOffset}
-      setCurrentPage={setCurrentPage}
-      currentPage={currentPage}
-      totalPages={totalPages}
-      lowerPageRange={lowerPageRange}
-      setLowerPageRange={setLowerPageRange}
     />
   );
 }
