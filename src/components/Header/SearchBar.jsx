@@ -1,14 +1,56 @@
 import React, { useState } from "react";
 import styles from "./SearchBar.module.scss";
 import SearchIcon from "../UI/SearchIcon";
+import { Link, useNavigate } from "react-router-dom";
 
 function SearchBar() {
   const [inputText, setInputText] = useState("");
+  const [searchOption, setSearchOption] = useState("q");
+
+  const navigate = useNavigate();
+
+  const optionsDropdown = [
+    { id: "q", name: "Todos" },
+    { id: "author", name: "Autor" },
+    { id: "title", name: "Título" },
+    { id: "subject", name: "Categoría" },
+  ];
+
   const inputTextChangeHandler = (event) => {
     setInputText(event.target.value);
   };
+
+  const searchButtonClickHandler = () => {
+    navigate(`/books/search/${searchOption}/${inputText}`);
+    setInputText("");
+    setSearchOption("q");
+  };
+
+  const selectedOptionDropdownChangeHandler = (e) => {
+    setSearchOption(e.target.value);
+  };
   return (
     <div className={styles["nav-searchbar"]}>
+      <select
+        className={styles["nav-searchbar-dropdown"]}
+        name="dropdownSearchBar"
+        id="dropdownSearchBar"
+        onChange={selectedOptionDropdownChangeHandler}
+        value={searchOption}
+      >
+        {optionsDropdown.map((opt) => {
+            return opt.name === "Todos" ? (
+              <option key={opt.name} value={opt.id} defaultValue="Todos">
+                {opt.name}
+              </option>
+            ) : (
+              <option key={opt.name} value={opt.id}>
+                {opt.name}
+              </option>
+            );
+        })}
+      </select>
+      <div className={styles["nav-searchbar-dividor"]} />
       <input
         type="text"
         value={inputText}
@@ -18,7 +60,10 @@ function SearchBar() {
         placeholder="Buscar"
         onChange={inputTextChangeHandler}
       />
-      <button className={styles["nav-searchbar-logo"]}>
+      <button
+        onClick={searchButtonClickHandler}
+        className={styles["nav-searchbar-logo"]}
+      >
         <SearchIcon />
       </button>
     </div>

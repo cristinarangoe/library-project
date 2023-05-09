@@ -31,7 +31,7 @@
     font-weight: map-get($fontWeight, bold);
   }
   p {
-    font-size: map-get($fontSizes, secondary);
+    font-size: map-get($fontSizes, tertiary);
     font-weight: map-get($fontWeight, regular);
   }
   a{

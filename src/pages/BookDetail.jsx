@@ -1,28 +1,72 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./BookDetail.module.scss";
+import { useParams } from "react-router-dom";
+import Loader from "../components/UI/Loader";
+import useFetch from "../utils/useFetch";
+import dataTransformation from "../utils/dataTransformationBookDetail";
 
 function BookDetail() {
-  const book = {
-    id: 1,
-    title: "The lord of the rings",
-    author: "Cristina Arango Escobsr",
-    img: "https://ia800606.us.archive.org/view_archive.php?archive=/9/items/olcovers38/olcovers38-L.zip&file=385209-L.jpg",
-    date: "14/04/2023",
-    description:
-      "Originally published from 1954 through 1956, J.R.R. Tolkien's richly complex series ushered in a new age of epic adventure storytelling. A philologist and illustrator who took inspiration from his work, Tolkien invented the modern heroic quest novel from the ground up, creating not just a world, but a domain, not just a lexicon, but a language, that would spawn countless imitators and lead to the inception of the epic fantasy genre. Today, THE LORD OF THE RINGS is considered ",
-  };
+  const [book, setBook] = useState({});
+  const params = useParams();
+  const { data, isLoading, error } = useFetch(
+    `https://openlibrary.org/${params.bookApi}/${params.id}.json`
+  );
+
+  const getTranformatedData = async () => {
+    const transformedBooks = await dataTransformation(data);
+    setBook(transformedBooks);
+  }
+
+  useEffect(() => {
+    getTranformatedData();
+  }, [data])
+
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (error) {
+    return <p>{error}</p>;
+  }
+  if (!book) {
+    return <p>No se ha encontrado información acerca de este libro!</p>;
+  }
+
   return (
     <div className={styles["book-detail"]}>
       <div className={styles["book-detail-img"]}>
-        <img src={book.img} alt={book.title} />
+        <img src={book.coverUrl} alt={book.title} />
       </div>
       <div className={styles["book-detail-content"]}>
         <h1>{book.title}</h1>
-        <h2>{book.author}</h2>
-        <p>{book.date}</p>
-        <div className={styles["book-detail-container-description"]}>
-          <p>{book.description}</p>
+        <h2>{book.authors}</h2>
+        {book.description && (
+          <div className={styles["book-detail-container-description"]}>
+            <h3>Descripción:</h3>
+            <p>{book.description}</p>
+          </div>
+        )}
+        <div className={styles["book-detail-container-dates"]}>
+          {book.dateCreated && (
+            <div>
+              <h4>Fecha de creación:</h4>
+              <p>{book.dateCreated}</p>
+            </div>
+          )}
+          {book.publishDate && (
+            <div>
+              <h4>Fecha de publicación:</h4>
+              <p>{book.publishDate}</p>
+            </div>
+          )}
         </div>
+        {book.subjects && (
+          <div className={styles["book-detail-container-subjects"]}>
+            <h4>Categorías:</h4>
+            <p>
+              {book.subjects[0]}, {book.subjects[1]}, {book.subjects[2]} ...
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
