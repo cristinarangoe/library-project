@@ -4,6 +4,7 @@ import SearchIcon from "../UI/SearchIcon";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { paginationActions } from "../../store/pagination";
+import optionsDropdown from "../../utils/searchBarDropdownOptions";
 
 function SearchBar() {
   const [inputText, setInputText] = useState("");
@@ -11,13 +12,6 @@ function SearchBar() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const optionsDropdown = [
-    { id: "q", name: "Todos" },
-    { id: "author", name: "Autor" },
-    { id: "title", name: "Título" },
-    { id: "subject", name: "Categoría" },
-  ];
 
   const inputTextChangeHandler = (event) => {
     setInputText(event.target.value);

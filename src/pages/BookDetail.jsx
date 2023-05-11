@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import styles from "./BookDetail.module.scss";
 import { useParams } from "react-router-dom";
 import Loader from "../components/UI/Loader";
@@ -69,8 +70,18 @@ function BookDetail() {
 
   return (
     <div className={styles["book-detail"]}>
+      <Helmet>
+        <title>Libro {book.title}</title>
+      </Helmet>
       <div className={styles["book-detail-img"]}>
-        <img src={book.coverUrl} alt={book.title} />
+        {book.coverUrl && <img src={book.coverUrl} alt={book.title} />}
+        {!book.coverUrl && (
+          <div className={styles["book-detail-image-no-image"]}>
+            <div>
+              <p>{book.title}</p>
+            </div>
+          </div>
+        )}
       </div>
       <div className={styles["book-detail-content"]}>
         <div className={styles["test"]}>

@@ -19,7 +19,16 @@ function BookItem(props) {
     <div className={styles["book-item"]}>
       <div className={styles["book-item-image"]}>
         <Link to={path}>
-          <img src={props.book.coverUrl} alt={props.book.title} />
+          {props.book.coverUrl && (
+            <img src={props.book.coverUrl} alt={props.book.title} />
+          )}
+          {!props.book.coverUrl && (
+            <div className={styles["book-item-image-no-image"]}>
+              <div className={styles["book-item-image-no-image-container"]}>
+                <p>{props.book.title}</p>
+              </div>
+            </div>
+          )}
         </Link>
         <button
           className={`${

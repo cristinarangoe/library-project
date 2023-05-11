@@ -32,6 +32,26 @@
   @extend .book-item-image-heart;
   background-color: map-get($colors, lightBrown);
 }
+.book-item-image-no-image {
+  background-color: lightgrey;
+  width: 100%;
+  height: 15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  div {
+    height: 80%;
+    width: 80%;
+    border-style: solid;
+    border-color: white;
+  }
+  p{
+    font-size: map-get($fontSizes, tertiary );
+    padding: 0 0.5rem;
+    color: map-get($colors, darkBrown );
+  }
+}
 .book-item-content {
   margin-left: 1.5rem;
   display: flex;
