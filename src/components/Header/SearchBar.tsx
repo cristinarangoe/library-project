@@ -2,36 +2,35 @@ import React, { useState } from "react";
 import styles from "./SearchBar.module.scss";
 import SearchIcon from "../UI/SearchIcon";
 import { useNavigate } from "react-router-dom";
-
-type DropdownOption = {
-  id: string;
-  name: string;
-}
+import { paginationActions } from "../../store/pagination";
+import { useDispatch } from "react-redux";
+import optionsDropdown from "../../utils/searchBarDropdownOptions";
+import DropdownOption from "../../models/searchBarDropdownOption";
 
 function SearchBar() {
   const [inputText, setInputText] = useState("");
   const [searchOption, setSearchOption] = useState("q");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const optionsDropdown = [
-    { id: "q", name: "Todos" },
-    { id: "author", name: "Autor" },
-    { id: "title", name: "Título" },
-    { id: "subject", name: "Categoría" },
-  ];
-
-  const inputTextChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const inputTextChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setInputText(event.target.value);
   };
 
   const searchButtonClickHandler = () => {
+    dispatch(paginationActions.setLimit(10));
+    dispatch(paginationActions.goToAPage(1));
     navigate(`/books/search/${searchOption}/${inputText}`);
     setInputText("");
     setSearchOption("q");
   };
 
-  const selectedOptionDropdownChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const selectedOptionDropdownChangeHandler = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setSearchOption(e.target.value);
   };
 
@@ -44,19 +43,11 @@ function SearchBar() {
         onChange={selectedOptionDropdownChangeHandler}
         value={searchOption}
       >
-        {optionsDropdown.map((opt: DropdownOption) => {
-          {
-            return opt.name === "Todos" ? (
-              <option key={opt.name} value={opt.id} defaultValue={"Todos"}>
-                {opt.name}
-              </option>
-            ) : (
-              <option key={opt.name} value={opt.id}>
-                {opt.name}
-              </option>
-            );
-          }
-        })}
+        {optionsDropdown.map((opt: DropdownOption) => (
+          <option key={opt.name} value={opt.id} defaultValue="Todos">
+            {opt.name}
+          </option>
+        ))}
       </select>
       <div className={styles["nav-searchbar-dividor"]} />
       <input

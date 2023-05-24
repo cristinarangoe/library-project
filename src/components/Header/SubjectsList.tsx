@@ -1,33 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./SubjectsList.module.scss";
+import { paginationActions } from "../../store/pagination";
+import subjectsLists from "../../utils/subjectsList";
+import { useDispatch } from "react-redux";
 
 const SubjectsList: React.FC<{
-  setMobileClicked: React.Dispatch<React.SetStateAction<boolean>>
+  setMobileClicked: React.Dispatch<React.SetStateAction<boolean>>;
   isMobile: boolean;
   setDropdownClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }> = (props) => {
-  const subjectsLists = [
-    { name: "Fantasia", id: "fantasy" },
-    { name: "Cocina", id: "cooking" },
-    { name: "Romance", id: "romance" },
-    { name: "Amor", id: "love" },
-    { name: "Ciencia ficción", id: "science_fiction" },
-    { name: "Literatura juvenil", id: "juvenile_literature" },
-    { name: "Gatos", id: "cats" },
-    { name: "Programación", id: "programming" },
-    { name: "Suspenso", id: "thriller" },
-    { name: "Emprendimiento", id: "entrepreneurship" },
-    { name: "Humor", id: "humor" },
-    { name: "Literatura", id: "literature" },
-    { name: "Administración", id: "management" },
-    { name: "Ciencia ficción juvenil", id: "young_adult_fiction" },
-    { name: "Magia", id: "magic" },
-  ];
+  const dispatch = useDispatch();
 
   const changeListDisplayHandler = () => {
     props.setDropdownClicked((prevState) => !prevState);
-    props.isMobile && props.setMobileClicked((prevState: boolean) => !prevState);
+    props.isMobile && props.setMobileClicked((prevState) => !prevState);
+    dispatch(paginationActions.setLimit(10));
+    dispatch(paginationActions.goToAPage(1));
   };
 
   return (
@@ -37,8 +26,8 @@ const SubjectsList: React.FC<{
         props.isMobile && styles["dropdown-menu-mobile"]
       }`}
     >
-      {subjectsLists.map((sub, index) => (
-        <li key={index} className={styles["main-nav-ppal-dropdown-option"]}>
+      {subjectsLists.map((sub) => (
+        <li key={sub.id} className={styles["main-nav-ppal-dropdown-option"]}>
           <Link to={`/books/subject/${sub.id}`}>{sub.name}</Link>
         </li>
       ))}

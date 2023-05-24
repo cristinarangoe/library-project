@@ -1,96 +1,63 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BookList from "../components/Main/BookList";
-import styles from "./BookListPage.module.scss";
-import DropdownNumberOfBooks from "../components/Main/DropdownNumberOfBooks";
-import Pagination from "../components/Main/Pagination";
-import Loader from "../components/UI/Loader";
 import Book from "../models/book";
-
-type ApiBook = {
-  key: string;
-  cover_edition_key?: string;
-  title: string;
-  author_name: string[];
-}
+import { useDispatch, useSelector } from "react-redux";
+import optionsDropdown from "../utils/searchBarDropdownOptions";
+import { paginationActions } from "../store/pagination";
+import dataTransformation from "../utils/dataTransformationBookSearch";
+import useFetch from "../utils/useFetch";
+import { RootState } from "../store";
+import DropdownOption from "../models/searchBarDropdownOption";
+import { ApiData } from "../models/apiBookSearch";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function BookListBySearch() {
   const [books, setBooks] = useState<Book[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<null | string>(null);
-  const [limit, setLimit] = useState(10);
-  const [offset, setOffset] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [lowerPageRange, setLowerPageRange] = useState(1);
 
   const params = useParams();
+  const dispatch = useDispatch();
 
-  const fetchBooksHandler = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    const convertedParams: string = params.searchField ? params.searchField.replace(/\s/g, "+") : "";
+  const offset = useSelector((state: RootState) => state.pagination.offset);
+  const limit = useSelector((state: RootState) => state.pagination.limit);
 
-    try {
-      const response = await fetch(
-        `https://openlibrary.org/search.json?${params.searchType}=${convertedParams}&limit=${limit}&offset=${offset}`
-      );
+  const dropdownOptionSelected = optionsDropdown.find(
+    (opt: DropdownOption) => opt.id === params.searchType
+  );
+  const typeOfSearch = dropdownOptionSelected
+    ? dropdownOptionSelected.name
+    : "";
 
-      if (!response.ok) {
-        throw new Error("Algo salió mal!");
-      }
+  const convertedParams = params.searchField
+    ? params.searchField.replace(/\s/g, "+")
+    : "";
 
-      const data = await response.json();
+  const { data, isLoading, error } = useFetch<ApiData>(
+    `https://openlibrary.org/search.json?${params.searchType}=${convertedParams}&limit=${limit}&offset=${offset}`
+  );
 
-      const transformedBooks: Book[] = data.docs.map((book: ApiBook) => {
-        return {
-          id: book.key,
-          coverUrl:
-            book.cover_edition_key &&
-            `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-L.jpg`,
-          title: book.title,
-          authors: book.author_name.join(", "),
-        };
-      });
-      setBooks(transformedBooks);
-      setTotalPages(Math.ceil(data.numFound / limit));
-    } catch (error) {
-      if(error instanceof Error) setError(error.message);
-    }
-    setIsLoading(false);
-  }, [params, limit, offset]);
+  const getTranformatedData = async () => {
+    if (!data) return;
+    const transformedBooks: Book[] = await dataTransformation(data);
+    transformedBooks && setBooks(transformedBooks);
+    dispatch(paginationActions.setTotalPages(Math.ceil(data.numFound / limit)));
+  };
 
   useEffect(() => {
-    fetchBooksHandler();
-  }, [fetchBooksHandler]);
+    getTranformatedData();
+  }, [data]);
 
-  if (isLoading) {
-    return <Loader />;
-  }
-  if (error) {
-    return <p>{error}</p>;
-  }
-  if (books.length === 0) {
-    return (
-      <p>No se encontró ningún libro en esta búsqueda: {params.searchField}</p>
-    );
-  }
   return (
-    <div className={styles["book-list-ppal"]}>
-      <h1>Búsqueda de: {params.searchField}</h1>
-      <DropdownNumberOfBooks setLimit={setLimit} limit={limit} />
-      <BookList books={books} />
-      <Pagination
-        limit={limit}
-        offset={offset}
-        setOffset={setOffset}
-        setCurrentPage={setCurrentPage}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        lowerPageRange={lowerPageRange}
-        setLowerPageRange={setLowerPageRange}
-      />
-    </div>
+    <HelmetProvider>
+      <div>
+        <Helmet>
+          <title>
+            {typeOfSearch} de {convertedParams}
+          </title>
+        </Helmet>
+        <BookList isLoading={isLoading} error={error} books={books} />
+      </div>
+    </HelmetProvider>
   );
 }
 

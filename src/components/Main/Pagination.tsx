@@ -1,79 +1,39 @@
 import React from "react";
 import styles from "./Pagination.module.scss";
 import ChevronIconDown from "../UI/ChevronIconDown";
+import { useDispatch, useSelector } from "react-redux";
+import { paginationActions } from "../../store/pagination";
+import { RootState } from "../../store";
 
-interface PaginationProps{
-  limit: number;
-  offset: number;
-  setOffset: (num: number) => void;
-  currentPage: number;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-  totalPages: number;
-  lowerPageRange: number;
-  setLowerPageRange: (num: number) => void;
-}
+function Pagination() {
+  const dispatch = useDispatch();
 
-const Pagination: React.FC<PaginationProps> = (props) => {
+  const currentPage = useSelector(
+    (state: RootState) => state.pagination.currentPage
+  );
+  const totalPages = useSelector(
+    (state: RootState) => state.pagination.totalPages
+  );
+  const lowerPageRange = useSelector(
+    (state: RootState) => state.pagination.lowerPageRange
+  );
+
   const nextPageClickHandler = () => {
-    if (props.currentPage === props.totalPages) return;
-    props.setOffset(props.offset + props.limit);
-    props.setCurrentPage((prevState: number) => +prevState + 1);
-    if (+props.totalPages <= 5) return;
-    if (props.currentPage === +props.totalPages) {
-      props.setLowerPageRange(+props.totalPages - 5);
-      return;
-    }
-    if (
-      +props.totalPages - 5 <= props.currentPage &&
-      +props.currentPage < +props.totalPages
-    ) {
-      props.setLowerPageRange(+props.totalPages - 5);
-      return;
-    }
-    props.setLowerPageRange(props.lowerPageRange + 1);
+    dispatch(paginationActions.nextPage());
   };
 
   const previousPageClickHandler = () => {
-    if (props.currentPage === 1) return;
-
-    props.setOffset(props.offset - props.limit);
-    props.setCurrentPage((prevState: number) => prevState - 1);
-
-    if (+props.totalPages <= 5) return;
-
-    if (
-      +props.totalPages - 5 < +props.currentPage &&
-      +props.currentPage <= +props.totalPages
-    ) {
-      props.setLowerPageRange(+props.totalPages - 5);
-      return;
-    }
-    props.setLowerPageRange(props.lowerPageRange - 1);
+    dispatch(paginationActions.previousPage());
   };
 
   const goToAPageClickHandler = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    const buttonValue: number = +(e.target as HTMLButtonElement).value;
-
-    props.setOffset(props.limit * (buttonValue - 1));
-    props.setCurrentPage(buttonValue);
-
-    if (+props.totalPages <= 5) return;
-
-    if (buttonValue === +props.totalPages) {
-      props.setLowerPageRange(+props.totalPages - 5);
-      return;
-    }
-    if (
-      +props.totalPages - 5 <= buttonValue &&
-      buttonValue < +props.totalPages
-    ) {
-      props.setLowerPageRange(+props.totalPages - 5);
-      return;
-    }
-    props.setLowerPageRange(buttonValue);
+    dispatch(
+      paginationActions.goToAPage(+(e.target as HTMLButtonElement).value)
+    );
   };
+
   return (
     <div className={styles["pagination"]}>
       <div className={styles["pagination-arrow"]}>
@@ -85,7 +45,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         </button>
       </div>
       <div className={styles["pagination-pages"]}>
-        {props.currentPage > 2 && props.totalPages > 5 && (
+        {currentPage > 2 && totalPages > 5 && (
           <button
             className={styles["pagination-button-number"]}
             value={1}
@@ -94,41 +54,39 @@ const Pagination: React.FC<PaginationProps> = (props) => {
             1
           </button>
         )}
-        {props.currentPage > 2 && props.totalPages > 5 && (
+        {currentPage > 2 && totalPages > 5 && (
           <p className={styles["pagination-button-number"]}>...</p>
         )}
-        {[...new Array(props.totalPages > 5 ? 5 : props.totalPages)].map(
-          (num, i) => {
-            return (
-              <button
-                key={props.lowerPageRange + i}
-                className={
-                  props.currentPage === +props.lowerPageRange + i
-                    ? styles["pagination-button-number-active"]
-                    : styles["pagination-button-number"]
-                }
-                value={+props.lowerPageRange + i}
-                onClick={goToAPageClickHandler}
-              >
-                {+props.lowerPageRange + i}
-              </button>
-            );
-          }
-        )}
-        {props.totalPages > 5 && (
+        {[...new Array(totalPages > 5 ? 5 : totalPages)].map((num, i) => {
+          return (
+            <button
+              key={lowerPageRange + i}
+              className={
+                currentPage === +lowerPageRange + i
+                  ? styles["pagination-button-number-active"]
+                  : styles["pagination-button-number"]
+              }
+              value={+lowerPageRange + i}
+              onClick={goToAPageClickHandler}
+            >
+              {+lowerPageRange + i}
+            </button>
+          );
+        })}
+        {totalPages > 5 && (
           <p className={styles["pagination-button-number"]}>...</p>
         )}
-        {props.totalPages > 5 && (
+        {totalPages > 5 && (
           <button
             className={
-              props.currentPage === props.totalPages
+              currentPage === totalPages
                 ? styles["pagination-button-number-active"]
                 : styles["pagination-button-number"]
             }
-            value={props.totalPages}
+            value={totalPages}
             onClick={goToAPageClickHandler}
           >
-            {props.totalPages}
+            {totalPages}
           </button>
         )}
       </div>
@@ -142,5 +100,5 @@ const Pagination: React.FC<PaginationProps> = (props) => {
       </div>
     </div>
   );
-};
+}
 export default Pagination;

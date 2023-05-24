@@ -1,6 +1,6 @@
 interface Book {
   id: string;
-  coverUrl: string;
+  coverUrl?: string;
   title: string;
   authors: string;
 }
