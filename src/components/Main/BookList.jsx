@@ -39,11 +39,8 @@ function BookList(props) {
           const isAFavoriteBook = favoriteBooks.find(
             (item) => item === book.id
           );
-          return isAFavoriteBook ? (
-            <BookItem book={book} key={book.id} isFavorite={true} />
-          ) : (
-            <BookItem book={book} key={book.id} isFavorite={false} />
-          );
+          console.log("cristina", isAFavoriteBook)
+          return <BookItem book={book} key={book.id} isFavorite={isAFavoriteBook ? true: false} />
         })}
       </div>
       <Pagination />

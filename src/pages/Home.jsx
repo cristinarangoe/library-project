@@ -1,14 +1,14 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Helmet } from "react-helmet";
 
 function Home() {
   return (
-    <div>
+    <Fragment>
       <Helmet>
         <title>Home page </title>
       </Helmet>
       Home
-    </div>
+    </Fragment>
   );
 }
 

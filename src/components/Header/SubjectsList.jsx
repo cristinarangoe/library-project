@@ -4,7 +4,7 @@ import styles from "./SubjectsList.module.scss";
 import { PropTypes } from "prop-types";
 import { useDispatch } from "react-redux";
 import { paginationActions } from "../../store/pagination";
-import subjectsLists from "../../utils/subjectsList";
+import subjectsLists from "../../constants/subjectsList";
 
 function SubjectsList(props) {
   const dispatch = useDispatch();

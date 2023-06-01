@@ -5,6 +5,7 @@ import { PropTypes } from "prop-types";
 import HeartIcon from "../UI/HeartIcon";
 import { useDispatch } from "react-redux";
 import { favoriteBooksActions } from "../../store/favoriteBooks";
+import DefaultImage from "../UI/DefaultImage";
 
 function BookItem(props) {
   const dispatch = useDispatch();
@@ -13,21 +14,17 @@ function BookItem(props) {
 
   const saveFavoriteBookClickHandler = (e) => {
     dispatch(favoriteBooksActions.saveFavoriteBooks(e.target.value));
+    console.log(e.target.value);
   };
 
   return (
     <div className={styles["book-item"]}>
       <div className={styles["book-item-image"]}>
         <Link to={path}>
-          {props.book.coverUrl && (
+          {props.book.coverUrl ? (
             <img src={props.book.coverUrl} alt={props.book.title} />
-          )}
-          {!props.book.coverUrl && (
-            <div className={styles["book-item-image-no-image"]}>
-              <div className={styles["book-item-image-no-image-container"]}>
-                <p>{props.book.title}</p>
-              </div>
-            </div>
+          ) : (
+            <DefaultImage title={props.book.title} />
           )}
         </Link>
         <button
@@ -36,7 +33,6 @@ function BookItem(props) {
               ? styles["book-item-image-heart-active"]
               : styles["book-item-image-heart"]
           }`}
-          key={props.book.id}
           value={props.book.id}
           onClick={saveFavoriteBookClickHandler}
         >

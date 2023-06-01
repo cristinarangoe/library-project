@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 import BookList from "../components/Main/BookList";
@@ -6,7 +6,7 @@ import useFetch from "../utils/useFetch";
 import dataTransformation from "../utils/dataTransformationBookSubject";
 import { useDispatch, useSelector } from "react-redux";
 import { paginationActions } from "../store/pagination";
-import subjectsLists from "../utils/subjectsList";
+import subjectsLists from "../constants/subjectsList";
 
 function BooksListBySubject() {
   const [books, setBooks] = useState([]);
@@ -36,12 +36,12 @@ function BooksListBySubject() {
   }, [data]);
 
   return (
-    <div>
+    <Fragment>
       <Helmet>
         <title>Libros de {subject}</title>
       </Helmet>
       <BookList isLoading={isLoading} error={error} books={books} />
-    </div>
+    </Fragment>
   );
 }
 

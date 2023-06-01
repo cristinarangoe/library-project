@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 import BookList from "../components/Main/BookList";
@@ -6,7 +6,7 @@ import dataTransformation from "../utils/dataTranformationBookSearch";
 import useFetch from "../utils/useFetch";
 import { useDispatch, useSelector } from "react-redux";
 import { paginationActions } from "../store/pagination";
-import optionsDropdown from "../utils/searchBarDropdownOptions";
+import optionsDropdown from "../constants/searchBarDropdownOptions";
 
 function BookListBySearch() {
   const [books, setBooks] = useState([]);
@@ -36,12 +36,12 @@ function BookListBySearch() {
   }, [data]);
 
   return (
-    <div>
+    <Fragment>
       <Helmet>
         <title>{typeOfSearch} de {convertedParams}</title>
       </Helmet>
       <BookList isLoading={isLoading} error={error} books={books} />
-    </div>
+    </Fragment>
   );
 }
 

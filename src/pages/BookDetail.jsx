@@ -8,6 +8,7 @@ import dataTransformation from "../utils/dataTransformationBookDetail";
 import HeartIcon from "../components/UI/HeartIcon";
 import { useDispatch, useSelector } from "react-redux";
 import { favoriteBooksActions } from "../store/favoriteBooks";
+import DefaultImage from "../components/UI/DefaultImage";
 
 function BookDetail() {
   const [book, setBook] = useState({});
@@ -30,8 +31,9 @@ function BookDetail() {
   };
 
   const settingFavoriteBooks = () => {
-    if (localStorage.getItem("favoriteBooks")) {
-      const favorites = JSON.parse(localStorage.getItem("favoriteBooks"));
+    const localStorageFavoriteBooks = localStorage.getItem("favoriteBooks");
+    if (localStorageFavoriteBooks) {
+      const favorites = JSON.parse(localStorageFavoriteBooks);
       const isAFavoriteBook = favorites.find(
         (item) => item === "/" + params.bookApi + "/" + params.id
       );
@@ -71,16 +73,13 @@ function BookDetail() {
   return (
     <div className={styles["book-detail"]}>
       <Helmet>
-        <title>Libro {book.title}</title>
+        <title>{`Libro ${book.title}`}</title>
       </Helmet>
       <div className={styles["book-detail-img"]}>
-        {book.coverUrl && <img src={book.coverUrl} alt={book.title} />}
-        {!book.coverUrl && (
-          <div className={styles["book-detail-image-no-image"]}>
-            <div>
-              <p>{book.title}</p>
-            </div>
-          </div>
+        {book.coverUrl ? (
+          <img src={book.coverUrl} alt={book.title} />
+        ) : (
+          <DefaultImage title={book.title} />
         )}
       </div>
       <div className={styles["book-detail-content"]}>

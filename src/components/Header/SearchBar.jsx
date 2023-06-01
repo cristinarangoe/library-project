@@ -4,7 +4,7 @@ import SearchIcon from "../UI/SearchIcon";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { paginationActions } from "../../store/pagination";
-import optionsDropdown from "../../utils/searchBarDropdownOptions";
+import optionsDropdown from "../../constants/searchBarDropdownOptions";
 
 function SearchBar() {
   const [inputText, setInputText] = useState("");
