@@ -12,9 +12,8 @@ function BookItem(props) {
 
   const path = `/books${props.book.id}`;
 
-  const saveFavoriteBookClickHandler = (e) => {
-    dispatch(favoriteBooksActions.saveFavoriteBooks(e.target.value));
-    console.log(e.target.value);
+  const saveFavoriteBookClickHandler = () => {
+    dispatch(favoriteBooksActions.saveFavoriteBooks(props.book.id));
   };
 
   return (
@@ -33,7 +32,6 @@ function BookItem(props) {
               ? styles["book-item-image-heart-active"]
               : styles["book-item-image-heart"]
           }`}
-          value={props.book.id}
           onClick={saveFavoriteBookClickHandler}
         >
           <HeartIcon />
