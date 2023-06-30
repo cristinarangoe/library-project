@@ -36,11 +36,10 @@ function BookList(props) {
       <DropdownNumberOfBooks />
       <div className={styles["books-list"]}>
         {props.books.map((book) => {
-          const isAFavoriteBook = favoriteBooks.find(
+          const isAFavoriteBook = favoriteBooks.some(
             (item) => item === book.id
           );
-          console.log("cristina", isAFavoriteBook)
-          return <BookItem book={book} key={book.id} isFavorite={isAFavoriteBook ? true: false} />
+          return <BookItem book={book} key={book.id} isFavorite={isAFavoriteBook} />
         })}
       </div>
       <Pagination />

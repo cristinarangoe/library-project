@@ -12,7 +12,6 @@ import DefaultImage from "../components/UI/DefaultImage";
 
 function BookDetail() {
   const [book, setBook] = useState({});
-  const [isFavorite, setIsFavorite] = useState(false);
 
   const params = useParams();
 
@@ -34,14 +33,7 @@ function BookDetail() {
     const localStorageFavoriteBooks = localStorage.getItem("favoriteBooks");
     if (localStorageFavoriteBooks) {
       const favorites = JSON.parse(localStorageFavoriteBooks);
-      const isAFavoriteBook = favorites.find(
-        (item) => item === "/" + params.bookApi + "/" + params.id
-      );
-      if (isAFavoriteBook) {
-        setIsFavorite(true);
-      } else {
-        setIsFavorite(false);
-      }
+      dispatch(favoriteBooksActions.setFavoriteBooks(favorites));
     }
   };
 
@@ -51,12 +43,6 @@ function BookDetail() {
   }, [data]);
 
   const saveFavoriteBookClickHandler = (e) => {
-    const isAFavoriteBook = favoriteBooks.find((item) => item === book.id);
-    if (isAFavoriteBook) {
-      setIsFavorite(false);
-    } else {
-      setIsFavorite(true);
-    }
     dispatch(favoriteBooksActions.saveFavoriteBooks(e.target.value));
   };
 
@@ -87,7 +73,7 @@ function BookDetail() {
           <h1>{book.title}</h1>
           <button
             className={`${
-              isFavorite
+              favoriteBooks.find((item) => item === book.id)
                 ? styles["book-detail-content-heart-active"]
                 : styles["book-detail-content-heart"]
             }`}
