@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 import BookList from "../components/Main/BookList";
 import dataTransformation from "../utils/dataTranformationBookSearch";
 import useFetch from "../utils/useFetch";
+import { useDispatch, useSelector } from "react-redux";
+import { paginationActions } from "../store/pagination";
+import optionsDropdown from "../constants/searchBarDropdownOptions";
 
 function BookListBySearch() {
   const [books, setBooks] = useState([]);
-  const [limit, setLimit] = useState(10);
-  const [offset, setOffset] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [lowerPageRange, setLowerPageRange] = useState(1);
 
   const params = useParams();
+  const dispatch = useDispatch();
+
+  const offset = useSelector((state) => state.pagination.offset);
+  const limit = useSelector((state) => state.pagination.limit);
+
+  const typeOfSearch = optionsDropdown.find(opt => opt.id === params.searchType).name;
 
   const convertedParams = params.searchField.replace(/\s/g, "+");
   const { data, isLoading, error } = useFetch(
@@ -23,7 +28,7 @@ function BookListBySearch() {
     if (!data) return;
     const transformedBooks = await dataTransformation(data);
     setBooks(transformedBooks);
-    setTotalPages(Math.ceil(data.numFound / limit));
+    dispatch(paginationActions.setTotalPages(Math.ceil(data.numFound / limit)));
   };
 
   useEffect(() => {
@@ -31,20 +36,12 @@ function BookListBySearch() {
   }, [data]);
 
   return (
-    <BookList
-      isLoading={isLoading}
-      error={error}
-      books={books}
-      limit={limit}
-      setLimit={setLimit}
-      offset={offset}
-      setOffset={setOffset}
-      setCurrentPage={setCurrentPage}
-      currentPage={currentPage}
-      totalPages={totalPages}
-      lowerPageRange={lowerPageRange}
-      setLowerPageRange={setLowerPageRange}
-    />
+    <Fragment>
+      <Helmet>
+        <title>{typeOfSearch} de {convertedParams}</title>
+      </Helmet>
+      <BookList isLoading={isLoading} error={error} books={books} />
+    </Fragment>
   );
 }
 

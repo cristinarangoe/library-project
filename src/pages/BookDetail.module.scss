@@ -4,7 +4,6 @@
 .book-detail {
   display: flex;
   flex-direction: column;
-  margin: 2rem;
   background-color: map-get($colors, superLightBrown);
   @include sm {
     flex-direction: row;
@@ -15,6 +14,7 @@
 .book-detail-img {
   display: flex;
   justify-content: center;
+  align-items: center;
   img {
     max-width: 100%;
     height: auto;
@@ -25,11 +25,56 @@
   }
 }
 
+.book-detail-img + div {
+  width: 60%;
+  @include sm {
+    width: 100%;
+    height: 60%;
+  }
+  @include md {
+    width: 60%;
+    height: 60%;
+  }
+}
+// .book-detail-image-no-image {
+//   background-color: lightgrey;
+//   width: 60%;
+//   height: 15rem;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   text-align: center;
+//   div {
+//     height: 80%;
+//     width: 80%;
+//     border-style: solid;
+//     border-color: white;
+//     display: flex;
+//     align-items: center;
+//   }
+//   p{
+//     text-align: center;
+//     font-size: map-get($fontSizes, secondary );
+//     padding: 0 0.5rem;
+//     color: map-get($colors, darkBrown );
+//   }
+//   @include sm {
+//     width: 100%;
+//     height: 60%;
+//   }
+//   @include md {
+//     width: 60%;
+//     height: 60%;
+//   }
+// }
+
 .book-detail-content {
   color: map-get($colors, darkBrown);
   font-family: $primaryFontFamily;
   margin-top: 1rem;
   text-align: center;
+  position: relative;
+  margin: 2rem;
   h1 {
     font-size: map-get($fontSizes, title);
     font-weight: map-get($fontWeight, bold);
@@ -42,10 +87,13 @@
     font-size: map-get($fontSizes, secondary);
     font-weight: map-get($fontWeight, regular);
   }
-  h3,h4,p{
+  h3,
+  h4,
+  p {
     margin: 0;
   }
-  h3,h4{
+  h3,
+  h4 {
     color: map-get($colors, darkBrown);
     font-size: map-get($fontSizes, secondary);
     font-weight: map-get($fontSizes, bold);
@@ -54,6 +102,30 @@
     width: 50%;
     padding-left: 1rem;
   }
+}
+.test {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  h1 {
+    width: 100%;
+    text-align: center;
+  }
+}
+.book-detail-content-heart {
+  margin: 0;
+  margin-left: 1rem;
+  padding: 0.4rem 0.3rem 0.2rem 0.3rem;
+  border: none;
+  background-color: map-get($colors, superLightBrown);
+  height: 3rem;
+  svg {
+    pointer-events: none;
+  }
+}
+.book-detail-content-heart-active {
+  @extend .book-detail-content-heart;
+  background-color: map-get($colors, lightBrown);
 }
 .book-detail-container-description {
   overflow: auto;
@@ -94,10 +166,9 @@
     }
   }
 }
-.book-detail-container-subjects{
+.book-detail-container-subjects {
   margin-top: 2rem;
   background-color: white;
   border-radius: 1.5rem;
   padding: 1.3rem 1rem;
 }
-

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import viteLogo from "/vite.svg";
 import bookLogo from "/bookLogo.svg";
 import styles from "./Navbar.module.scss";
 import SearchBar from "./SearchBar";
