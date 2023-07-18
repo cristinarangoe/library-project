@@ -1,26 +1,25 @@
 import React, { useState } from "react";
 import styles from "./SearchBar.module.scss";
 import SearchIcon from "../UI/SearchIcon";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { paginationActions } from "../../store/pagination";
+import optionsDropdown from "../../constants/searchBarDropdownOptions";
 
 function SearchBar() {
   const [inputText, setInputText] = useState("");
   const [searchOption, setSearchOption] = useState("q");
 
   const navigate = useNavigate();
-
-  const optionsDropdown = [
-    { id: "q", name: "Todos" },
-    { id: "author", name: "Autor" },
-    { id: "title", name: "Título" },
-    { id: "subject", name: "Categoría" },
-  ];
+  const dispatch = useDispatch();
 
   const inputTextChangeHandler = (event) => {
     setInputText(event.target.value);
   };
 
   const searchButtonClickHandler = () => {
+    dispatch(paginationActions.setLimit(10));
+    dispatch(paginationActions.goToAPage(1));
     navigate(`/books/search/${searchOption}/${inputText}`);
     setInputText("");
     setSearchOption("q");
@@ -38,17 +37,11 @@ function SearchBar() {
         onChange={selectedOptionDropdownChangeHandler}
         value={searchOption}
       >
-        {optionsDropdown.map((opt) => {
-            return opt.name === "Todos" ? (
-              <option key={opt.name} value={opt.id} defaultValue="Todos">
-                {opt.name}
-              </option>
-            ) : (
-              <option key={opt.name} value={opt.id}>
-                {opt.name}
-              </option>
-            );
-        })}
+        {optionsDropdown.map((opt) => (
+          <option key={opt.name} value={opt.id} defaultValue="Todos">
+            {opt.name}
+          </option>
+        ))}
       </select>
       <div className={styles["nav-searchbar-dividor"]} />
       <input

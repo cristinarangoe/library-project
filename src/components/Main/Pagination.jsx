@@ -1,64 +1,28 @@
 import React from "react";
 import styles from "./Pagination.module.scss";
 import ChevronIconDown from "../UI/ChevronIconDown";
-import { PropTypes } from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { paginationActions } from "../../store/pagination";
 
-function Pagination(props) {
+function Pagination() {
+  const dispatch = useDispatch();
+
+  const currentPage = useSelector((state) => state.pagination.currentPage);
+  const totalPages = useSelector((state) => state.pagination.totalPages);
+  const lowerPageRange = useSelector(
+    (state) => state.pagination.lowerPageRange
+  );
+
   const nextPageClickHandler = () => {
-    if (props.currentPage === props.totalPages) return;
-    props.setOffset(props.offset + props.limit);
-    props.setCurrentPage((prevState) => prevState + 1);
-    if (+props.totalPages <= 5) return;
-    if (props.currentPage === +props.totalPages) {
-      props.setLowerPageRange(+props.totalPages - 5);
-      return;
-    }
-    if (
-      +props.totalPages - 5 <= props.currentPage &&
-      +props.currentPage < +props.totalPages
-    ) {
-      props.setLowerPageRange(+props.totalPages - 5);
-      return;
-    }
-    props.setLowerPageRange(props.lowerPageRange + 1);
+    dispatch(paginationActions.nextPage());
   };
 
   const previousPageClickHandler = () => {
-    if (props.currentPage === 1) return;
-
-    props.setOffset(props.offset - props.limit);
-    props.setCurrentPage((prevState) => prevState - 1);
-
-    if (+props.totalPages <= 5) return;
-
-    if (
-      +props.totalPages - 5 < +props.currentPage &&
-      +props.currentPage <= +props.totalPages
-    ) {
-      props.setLowerPageRange(+props.totalPages - 5);
-      return;
-    }
-    props.setLowerPageRange(props.lowerPageRange - 1);
+    dispatch(paginationActions.previousPage());
   };
 
   const goToAPageClickHandler = (e) => {
-    props.setOffset(props.limit * (e.target.value - 1));
-    props.setCurrentPage(+e.target.value);
-
-    if (+props.totalPages <= 5) return;
-
-    if (+e.target.value === +props.totalPages) {
-      props.setLowerPageRange(+props.totalPages - 5);
-      return;
-    }
-    if (
-      +props.totalPages - 5 <= +e.target.value &&
-      +e.target.value < +props.totalPages
-    ) {
-      props.setLowerPageRange(+props.totalPages - 5);
-      return;
-    }
-    props.setLowerPageRange(+e.target.value);
+    dispatch(paginationActions.goToAPage(+e.target.value));
   };
   return (
     <div className={styles["pagination"]}>
@@ -71,7 +35,7 @@ function Pagination(props) {
         </button>
       </div>
       <div className={styles["pagination-pages"]}>
-        {props.currentPage > 2 && props.totalPages > 5 && (
+        {currentPage > 2 && totalPages > 5 && (
           <button
             className={styles["pagination-button-number"]}
             value={1}
@@ -80,41 +44,41 @@ function Pagination(props) {
             1
           </button>
         )}
-        {props.currentPage > 2 && props.totalPages > 5 && (
+        {currentPage > 2 && totalPages > 5 && (
           <p className={styles["pagination-button-number"]}>...</p>
         )}
-        {[...new Array(props.totalPages > 5 ? 5 : props.totalPages)].map(
+        {[...new Array(totalPages > 5 ? 5 : totalPages)].map(
           (num, i) => {
             return (
               <button
-                key={props.lowerPageRange + i}
+                key={lowerPageRange + i}
                 className={
-                  props.currentPage === +props.lowerPageRange + i
+                  currentPage === +lowerPageRange + i
                     ? styles["pagination-button-number-active"]
                     : styles["pagination-button-number"]
                 }
-                value={+props.lowerPageRange + i}
+                value={+lowerPageRange + i}
                 onClick={goToAPageClickHandler}
               >
-                {+props.lowerPageRange + i}
+                {+lowerPageRange + i}
               </button>
             );
           }
         )}
-        {props.totalPages > 5 && (
+        {totalPages > 5 && (
           <p className={styles["pagination-button-number"]}>...</p>
         )}
-        {props.totalPages > 5 && (
+        {totalPages > 5 && (
           <button
             className={
-              props.currentPage === props.totalPages
+              currentPage === totalPages
                 ? styles["pagination-button-number-active"]
                 : styles["pagination-button-number"]
             }
-            value={props.totalPages}
+            value={totalPages}
             onClick={goToAPageClickHandler}
           >
-            {props.totalPages}
+            {totalPages}
           </button>
         )}
       </div>
@@ -129,15 +93,4 @@ function Pagination(props) {
     </div>
   );
 }
-
-Pagination.propTypes = {
-  limit: PropTypes.number,
-  offset: PropTypes.number,
-  setOffset: PropTypes.func,
-  setCurrentPage: PropTypes.func,
-  currentPage: PropTypes.number,
-  totalPages: PropTypes.number,
-  lowerPageRange: PropTypes.number,
-  setLowerPageRange: PropTypes.func,
-};
 export default Pagination;
